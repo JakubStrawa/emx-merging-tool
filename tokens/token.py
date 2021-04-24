@@ -1,5 +1,6 @@
 import enum
 
+
 # class Token representing simple token without value
 # class ValueToken representing token with value
 # class TokenType with all needed tokens for lexer
@@ -10,21 +11,20 @@ class Token:
         self.token_type = type
 
 
-class ValueToken:
+class ValueToken(Token):
     def __init__(self, type, value):
-        self.token_type = type
-        self.token_value = value
+        super().__init__(type)
+        self.value = value
 
 
 class TokenType(enum.Enum):
     def to_string(self):
         return token_names.get(self)
 
-    # basic symbols <,>,/,",=
+    # basic symbols <,>,/,=
     T_LEFT_BRACKET = enum.auto()
     T_RIGHT_BRACKET = enum.auto()
     T_SLASH = enum.auto()
-    T_QUOTE = enum.auto()
     T_EQUALS = enum.auto()
 
     T_UML_MODEL = enum.auto()
@@ -74,46 +74,53 @@ class TokenType(enum.Enum):
     T_IS_UNIQUE = enum.auto()
     T_IS_ABSTRACT = enum.auto()
     T_EOF = enum.auto()
+    T_XMI_VERSION = enum.auto()
+    T_XMLNS_XMI = enum.auto()
+    T_XMLNS_XSI = enum.auto()
+    T_XMLNS_ECORE = enum.auto()
+    T_XMLNS_UML = enum.auto()
+    T_XMLNS_UML_NOTATION = enum.auto()
+    T_STRING_VALUE = enum.auto()
+    T_DOUBLE_STRING_VALUE = enum.auto()
 
 
 token_names = {
-    TokenType.T_LEFT_BRACKET: "<",
-    TokenType.T_RIGHT_BRACKET: ">",
-    TokenType.T_SLASH: "/",
-    TokenType.T_QUOTE: '"',
-    TokenType.T_EQUALS: "=",
-    TokenType.T_UML_MODEL: "uml:Model",
+    TokenType.T_LEFT_BRACKET: "<",  # no value
+    TokenType.T_RIGHT_BRACKET: ">",  # no value
+    TokenType.T_SLASH: "/",  # no value
+    TokenType.T_EQUALS: "=",  # no value
+    TokenType.T_UML_MODEL: "uml:Model",  # no value
     TokenType.T_XMI_ID: "xmi:id",
     TokenType.T_NAME: "name",
-    TokenType.T_EANNOTATIONS: "eAnnotations",
+    TokenType.T_EANNOTATIONS: "eAnnotations",  # no value
     TokenType.T_SOURCE: "source",
-    TokenType.T_CONTENTS: "contents",
+    TokenType.T_CONTENTS: "contents",  # no value
     TokenType.T_XMI_TYPE: "xmi:type",
-    TokenType.T_TYPE: "type",
-    TokenType.T_ELEMENT: "element",
+    TokenType.T_TYPE: "type",  # value & no value
+    TokenType.T_ELEMENT: "element",  # no value
     TokenType.T_XSI_NIL: "xsi:nil",
-    TokenType.T_PACKAGE_IMPORT: "packageImport",
-    TokenType.T_IMPORTED_PACKAGE: "importedPackage",
+    TokenType.T_PACKAGE_IMPORT: "packageImport",  # no value
+    TokenType.T_IMPORTED_PACKAGE: "importedPackage",  # no value
     TokenType.T_HREF: "href",
-    TokenType.T_PACKAGED_ELEMENT: "packagedElement",
-    TokenType.T_GENERALIZATION: "generalization",
+    TokenType.T_PACKAGED_ELEMENT: "packagedElement",  # no value
+    TokenType.T_GENERALIZATION: "generalization",  # no value
     TokenType.T_GENERAL: "general",
-    TokenType.T_OWNED_ATTRIBUTE: "ownedAttribute",
+    TokenType.T_OWNED_ATTRIBUTE: "ownedAttribute",  # no value
     TokenType.T_VISIBILITY: "visibility",
     TokenType.T_VALUE: "value",
-    TokenType.T_UPPER_VALUE: "upperValue",
-    TokenType.T_LOWER_VALUE: "lowerValue",
-    TokenType.T_DEFAULT_VALUE: "defaultValue",
+    TokenType.T_UPPER_VALUE: "upperValue",  # no value
+    TokenType.T_LOWER_VALUE: "lowerValue",  # no value
+    TokenType.T_DEFAULT_VALUE: "defaultValue",  # no value
     TokenType.T_AGGREGATION: "aggregation",
     TokenType.T_ASSOCIATION: "association",
-    TokenType.T_OWNED_OPERATION: "ownedOperation",
-    TokenType.T_OWNED_PARAMETER: "ownedParameter",
+    TokenType.T_OWNED_OPERATION: "ownedOperation",  # no value
+    TokenType.T_OWNED_PARAMETER: "ownedParameter",  # no value
     TokenType.T_IS_STATIC: "isStatic",
     TokenType.T_MEMBER_END: "memberEnd",
-    TokenType.T_OWNED_END: "ownedEnd",
-    TokenType.T_PROFILE_APPLICATION: "profileApplication",
-    TokenType.T_REFERENCES: "references",
-    TokenType.T_APPLIED_PROFILE: "appliedProfile",
+    TokenType.T_OWNED_END: "ownedEnd",  # no value
+    TokenType.T_PROFILE_APPLICATION: "profileApplication",  # no value
+    TokenType.T_REFERENCES: "references",  # no value
+    TokenType.T_APPLIED_PROFILE: "appliedProfile",  # no value
     TokenType.T_XMLNS_NOTATION: "xmlns:notation",
     TokenType.T_CHILDREN: "children",
     TokenType.T_TARGET: "target",
@@ -128,5 +135,20 @@ token_names = {
     TokenType.T_DIRECTION: "direction",
     TokenType.T_IS_UNIQUE: "isUnique",
     TokenType.T_IS_ABSTRACT: "isAbstract",
-    TokenType.T_EOF: "EOF"
+    TokenType.T_EOF: "EOF",  # no value
+    TokenType.T_XMI_VERSION: "xmi:version",
+    TokenType.T_XMLNS_XMI: "xmlns:xmi",
+    TokenType.T_XMLNS_XSI: "xmlns:xsi",
+    TokenType.T_XMLNS_ECORE: "xmlns:ecore",
+    TokenType.T_XMLNS_UML: "xmlns:uml",
+    TokenType.T_XMLNS_UML_NOTATION: "xmlns:umlnotation",
+    TokenType.T_STRING_VALUE: '"string_value"',
+    TokenType.T_DOUBLE_STRING_VALUE: '"double_string value"'
 }
+
+
+def create_new_token(token_type: TokenType, value):
+    if token_type is TokenType.T_STRING_VALUE or TokenType.T_DOUBLE_STRING_VALUE:
+        return ValueToken(token_type, value)
+    else:
+        return Token(token_type)
