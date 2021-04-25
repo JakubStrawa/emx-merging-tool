@@ -1,5 +1,5 @@
 import enum
-
+from error import LexerError
 
 # class Token representing simple token without value
 # class ValueToken representing token with value
@@ -151,4 +151,7 @@ def create_new_token(token_type: TokenType, value):
     if token_type is TokenType.T_STRING_VALUE or TokenType.T_DOUBLE_STRING_VALUE:
         return ValueToken(token_type, value)
     else:
-        return Token(token_type)
+        try:
+            return Token(token_type)
+        except LexerError(0, value) as e:
+            print(e.error_message())
