@@ -9,7 +9,7 @@ class Lexer:
         self.filepath = filepath
         self.source_file = FileReader(self.filepath)
         self.regex_table = compile_regex_rules()
-        self.lexer_loop()
+        self.tokens_found = self.lexer_loop()
 
     def get_token(self):
         char = self.source_file.get_char()
@@ -34,9 +34,11 @@ class Lexer:
             raise LexerError(self.source_file.line, self.source_file.position, token_builder)
 
     def lexer_loop(self):
+        token_array = []
         while True:
             try:
                 token = self.get_token()
+                token_array.append(token.token_type.name)
                 print(token.token_type)
                 if token.token_type == TokenType.T_EOF:
                     break
@@ -45,6 +47,7 @@ class Lexer:
                 self.lexer_critical_error()
         print("EOF token found")
         self.source_file.close_file()
+        return token_array
 
     def is_char_simple_token(self, char):
         if char == '<' or char == '>' or char == '=' or char == '':

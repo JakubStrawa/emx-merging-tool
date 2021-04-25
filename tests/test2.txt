@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<!--Rational Software Architect Designer 9.7.0-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>
+<packagedElement xmi:type="uml:Association" xmi:id="_W3k-MJCoEeuICJsfN6k0VQ" memberEnd="_W3llQJCoEeuICJsfN6k0VQ _W3mzYJ-CoEeuICJsfN6k0VQ">
+    <ownedEnd xmi:id="_W3mzYJCoEeuICJsfN6k0VQ" name="" visibility="private" type="_QtWKMJCgEeuacZWeASWGOQ" association="_W3k-MJCoEeuICJsfN6k0VQ">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W3mzYpCoEeuICJsfN6k0VQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_W3mzYZCoEeuICJsfN6k0VQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <profileApplication xmi:id="_XRKENZCaEeuG94qDkPAb9w">

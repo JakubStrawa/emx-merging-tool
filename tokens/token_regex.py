@@ -71,5 +71,5 @@ regex_rules = {
     r'xmlns:uml': TokenType.T_XMLNS_UML,
     r'xmlns:umlnotation': TokenType.T_XMLNS_UML_NOTATION,
     r'\"[\S]*\"': TokenType.T_STRING_VALUE,
-    r'\"[^\"]*\"': TokenType.T_DOUBLE_STRING_VALUE
+    r'\"[\w-]*\s[\w-]*\"': TokenType.T_DOUBLE_STRING_VALUE
 }
