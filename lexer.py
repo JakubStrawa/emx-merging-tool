@@ -11,6 +11,7 @@ class Lexer:
         self.regex_table = compile_regex_rules()
         self.tokens_found = self.lexer_loop()
 
+    # get next token from source file
     def get_token(self):
         char = self.source_file.get_char()
         while char.isspace():
@@ -33,6 +34,7 @@ class Lexer:
                     return create_new_token(self.regex_table[r], token_builder)
             raise LexerError(self.source_file.line, self.source_file.position, token_builder)
 
+    # main lexer loop building token array
     def lexer_loop(self):
         token_array = []
         while True:
@@ -49,6 +51,7 @@ class Lexer:
         self.source_file.close_file()
         return token_array
 
+    # checks if char is one char token
     def is_char_simple_token(self, char):
         if char == '<' or char == '>' or char == '=' or char == '':
             return True
@@ -71,6 +74,7 @@ class Lexer:
         else:
             return False
 
+    # critical lexer error when invalid token is met
     def lexer_critical_error(self):
         self.source_file.close_file()
         print("Critical error found, exiting lexer...")

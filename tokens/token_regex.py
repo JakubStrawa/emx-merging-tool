@@ -1,9 +1,7 @@
 import re
 from tokens.token import TokenType
 
-
-# dictionary regex_rules with regex rules for each token
-
+# compile dictionary of regex rules
 def compile_regex_rules():
     compiled_regex = {}
     for r in regex_rules:
@@ -11,7 +9,7 @@ def compile_regex_rules():
         compiled_regex[pattern] = regex_rules[r]
     return compiled_regex
 
-
+# dictionary regex_rules with regex rules for each token
 regex_rules = {
     r'<(?![\S|\s])': TokenType.T_LEFT_BRACKET,
     r'>(?![\S|\s])': TokenType.T_RIGHT_BRACKET,

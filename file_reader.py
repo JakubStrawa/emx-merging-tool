@@ -10,7 +10,7 @@ class FileReader:
         self.absolute_position = position
         self.skip_file_header()
 
-
+    # get next char from source
     def get_char(self):
         self.file.seek(self.absolute_position)
         c = self.file.read(1)
@@ -21,11 +21,13 @@ class FileReader:
             self.position = 0
         return c
 
+    # skip 5 line header of emx file
     def skip_file_header(self):
         for i in range(5):
             line = self.file.readline()
             self.absolute_position += len(line)
             self.line += 1
 
+    # close source file
     def close_file(self):
         self.file.close()

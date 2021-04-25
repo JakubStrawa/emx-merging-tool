@@ -27,6 +27,7 @@ class TokenType(enum.Enum):
     T_SLASH = enum.auto()
     T_EQUALS = enum.auto()
 
+    #emx file tokens
     T_UML_MODEL = enum.auto()
     T_XMI_ID = enum.auto()
     T_NAME = enum.auto()
@@ -80,6 +81,8 @@ class TokenType(enum.Enum):
     T_XMLNS_ECORE = enum.auto()
     T_XMLNS_UML = enum.auto()
     T_XMLNS_UML_NOTATION = enum.auto()
+
+    # string value tokens
     T_STRING_VALUE = enum.auto()
     T_DOUBLE_STRING_VALUE = enum.auto()
 
@@ -146,7 +149,7 @@ token_names = {
     TokenType.T_DOUBLE_STRING_VALUE: '"double_string value"'
 }
 
-
+# create new token from TokenType and value is condition is met
 def create_new_token(token_type: TokenType, value):
     if token_type == TokenType.T_STRING_VALUE or token_type == TokenType.T_DOUBLE_STRING_VALUE:
         return ValueToken(token_type, value)
