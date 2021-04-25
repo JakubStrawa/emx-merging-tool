@@ -148,7 +148,7 @@ token_names = {
 
 
 def create_new_token(token_type: TokenType, value):
-    if token_type is TokenType.T_STRING_VALUE or TokenType.T_DOUBLE_STRING_VALUE:
+    if token_type == TokenType.T_STRING_VALUE or token_type == TokenType.T_DOUBLE_STRING_VALUE:
         return ValueToken(token_type, value)
     else:
         return Token(token_type)
