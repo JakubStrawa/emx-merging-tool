@@ -1,8 +1,8 @@
 import enum
-from error import LexerError
 
-# class Token representing simple token without value
-# class ValueToken representing token with value
+
+# class Token represents simple token without value
+# class ValueToken represents token with value
 # class TokenType with all needed tokens for lexer
 # dictionary token_names with token corresponding literals
 
@@ -85,42 +85,42 @@ class TokenType(enum.Enum):
 
 
 token_names = {
-    TokenType.T_LEFT_BRACKET: "<",  # no value
-    TokenType.T_RIGHT_BRACKET: ">",  # no value
-    TokenType.T_SLASH: "/",  # no value
-    TokenType.T_EQUALS: "=",  # no value
-    TokenType.T_UML_MODEL: "uml:Model",  # no value
+    TokenType.T_LEFT_BRACKET: "<",
+    TokenType.T_RIGHT_BRACKET: ">",
+    TokenType.T_SLASH: "/",
+    TokenType.T_EQUALS: "=",
+    TokenType.T_UML_MODEL: "uml:Model",
     TokenType.T_XMI_ID: "xmi:id",
     TokenType.T_NAME: "name",
-    TokenType.T_EANNOTATIONS: "eAnnotations",  # no value
+    TokenType.T_EANNOTATIONS: "eAnnotations",
     TokenType.T_SOURCE: "source",
-    TokenType.T_CONTENTS: "contents",  # no value
+    TokenType.T_CONTENTS: "contents",
     TokenType.T_XMI_TYPE: "xmi:type",
-    TokenType.T_TYPE: "type",  # value & no value
-    TokenType.T_ELEMENT: "element",  # no value
+    TokenType.T_TYPE: "type",
+    TokenType.T_ELEMENT: "element",
     TokenType.T_XSI_NIL: "xsi:nil",
-    TokenType.T_PACKAGE_IMPORT: "packageImport",  # no value
-    TokenType.T_IMPORTED_PACKAGE: "importedPackage",  # no value
+    TokenType.T_PACKAGE_IMPORT: "packageImport",
+    TokenType.T_IMPORTED_PACKAGE: "importedPackage",
     TokenType.T_HREF: "href",
-    TokenType.T_PACKAGED_ELEMENT: "packagedElement",  # no value
-    TokenType.T_GENERALIZATION: "generalization",  # no value
+    TokenType.T_PACKAGED_ELEMENT: "packagedElement",
+    TokenType.T_GENERALIZATION: "generalization",
     TokenType.T_GENERAL: "general",
-    TokenType.T_OWNED_ATTRIBUTE: "ownedAttribute",  # no value
+    TokenType.T_OWNED_ATTRIBUTE: "ownedAttribute",
     TokenType.T_VISIBILITY: "visibility",
     TokenType.T_VALUE: "value",
-    TokenType.T_UPPER_VALUE: "upperValue",  # no value
-    TokenType.T_LOWER_VALUE: "lowerValue",  # no value
-    TokenType.T_DEFAULT_VALUE: "defaultValue",  # no value
+    TokenType.T_UPPER_VALUE: "upperValue",
+    TokenType.T_LOWER_VALUE: "lowerValue",
+    TokenType.T_DEFAULT_VALUE: "defaultValue",
     TokenType.T_AGGREGATION: "aggregation",
     TokenType.T_ASSOCIATION: "association",
-    TokenType.T_OWNED_OPERATION: "ownedOperation",  # no value
-    TokenType.T_OWNED_PARAMETER: "ownedParameter",  # no value
+    TokenType.T_OWNED_OPERATION: "ownedOperation",
+    TokenType.T_OWNED_PARAMETER: "ownedParameter",
     TokenType.T_IS_STATIC: "isStatic",
     TokenType.T_MEMBER_END: "memberEnd",
-    TokenType.T_OWNED_END: "ownedEnd",  # no value
-    TokenType.T_PROFILE_APPLICATION: "profileApplication",  # no value
-    TokenType.T_REFERENCES: "references",  # no value
-    TokenType.T_APPLIED_PROFILE: "appliedProfile",  # no value
+    TokenType.T_OWNED_END: "ownedEnd",
+    TokenType.T_PROFILE_APPLICATION: "profileApplication",
+    TokenType.T_REFERENCES: "references",
+    TokenType.T_APPLIED_PROFILE: "appliedProfile",
     TokenType.T_XMLNS_NOTATION: "xmlns:notation",
     TokenType.T_CHILDREN: "children",
     TokenType.T_TARGET: "target",
@@ -135,7 +135,7 @@ token_names = {
     TokenType.T_DIRECTION: "direction",
     TokenType.T_IS_UNIQUE: "isUnique",
     TokenType.T_IS_ABSTRACT: "isAbstract",
-    TokenType.T_EOF: "EOF",  # no value
+    TokenType.T_EOF: "EOF",
     TokenType.T_XMI_VERSION: "xmi:version",
     TokenType.T_XMLNS_XMI: "xmlns:xmi",
     TokenType.T_XMLNS_XSI: "xmlns:xsi",
@@ -151,7 +151,4 @@ def create_new_token(token_type: TokenType, value):
     if token_type is TokenType.T_STRING_VALUE or TokenType.T_DOUBLE_STRING_VALUE:
         return ValueToken(token_type, value)
     else:
-        try:
-            return Token(token_type)
-        except LexerError(0, value) as e:
-            print(e.error_message())
+        return Token(token_type)

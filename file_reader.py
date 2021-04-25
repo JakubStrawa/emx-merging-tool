@@ -7,21 +7,24 @@ class FileReader:
         self.file = open(filepath, 'r', encoding='utf-8', errors='replace')
         self.line = line
         self.position = position
+        self.absolute_position = position
         self.skip_file_header()
 
 
     def get_char(self):
-        self.file.seek(self.position)
+        self.file.seek(self.absolute_position)
         c = self.file.read(1)
         self.position += 1
+        self.absolute_position += 1
         if c == '\n':
             self.line += 1
+            self.position = 0
         return c
 
     def skip_file_header(self):
         for i in range(5):
             line = self.file.readline()
-            self.position += len(line)
+            self.absolute_position += len(line)
             self.line += 1
 
     def close_file(self):

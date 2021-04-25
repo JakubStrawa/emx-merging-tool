@@ -4,6 +4,6 @@ import codecs
 from lexer import Lexer
 
 if __name__ == "__main__":
-    codecs.open("test.txt", encoding="utf-8", errors="strict").readlines()
-    lexe = Lexer("test.txt")
+    codecs.open("JavaBlankModel.emx", encoding="utf-8", errors="strict").readlines()
+    lexer = Lexer("JavaBlankModel.emx")
     #gui.create_gui()

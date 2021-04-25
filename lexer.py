@@ -1,7 +1,8 @@
+from error import LexerError
+from file_reader import FileReader
 from tokens.token import TokenType, create_new_token
 from tokens.token_regex import compile_regex_rules
-from file_reader import FileReader
-from error import LexerError
+
 
 class Lexer:
     def __init__(self, filepath=None):
@@ -15,14 +16,10 @@ class Lexer:
         while char.isspace():
             char = self.source_file.get_char()
         if self.is_char_simple_token(char):
-            try:
-                for r in self.regex_table:
-                    if r.match(char):
-                        return create_new_token(self.regex_table[r], char)
-            except LexerError:
-                raise LexerError(self.source_file.line, char)
-            #except LexerError(self.source_file.line, char) as e:
-             #   print(e.error_message())
+            for r in self.regex_table:
+                if r.match(char):
+                    return create_new_token(self.regex_table[r], char)
+            raise LexerError(self.source_file.line, self.source_file.position, char)
         else:
             token_builder = char
             char = self.source_file.get_char()
@@ -30,23 +27,24 @@ class Lexer:
                 token_builder += char
                 char = self.source_file.get_char()
             self.source_file.position -= 1
-            try:
-                for r in self.regex_table:
-                    if r.match(token_builder):
-                        return create_new_token(self.regex_table[r], token_builder)
-            except LexerError:
-                raise LexerError(self.source_file.line, token_builder)
-
+            self.source_file.absolute_position -= 1
+            for r in self.regex_table:
+                if r.match(token_builder):
+                    return create_new_token(self.regex_table[r], token_builder)
+            raise LexerError(self.source_file.line, self.source_file.position, token_builder)
 
     def lexer_loop(self):
-        token = self.get_token()
-        print(token.token_type)
-        while token.token_type != TokenType.T_EOF:
-            token = self.get_token()
-            #print(token.token_type)
-            #if token.token_type == TokenType.T_STRING_VALUE or token.token_type == TokenType.T_DOUBLE_STRING_VALUE:
-                #print(token.value)
+        while True:
+            try:
+                token = self.get_token()
+                print(token.token_type)
+                if token.token_type == TokenType.T_EOF:
+                    break
+            except LexerError as e:
+                e.error_message()
+                self.lexer_critical_error()
         print("EOF token found")
+        self.source_file.close_file()
 
     def is_char_simple_token(self, char):
         if char == '<' or char == '>' or char == '=' or char == '':
@@ -54,15 +52,23 @@ class Lexer:
         elif char == '/':
             c = self.source_file.get_char()
             self.source_file.position -= 1
+            self.source_file.absolute_position -= 1
             if c == '>':
                 return True
             else:
                 self.source_file.position -= 2
+                self.source_file.absolute_position -= 2
                 c = self.source_file.get_char()
                 self.source_file.position += 1
+                self.source_file.absolute_position += 1
                 if c == '<':
                     return True
                 else:
                     return False
         else:
             return False
+
+    def lexer_critical_error(self):
+        self.source_file.close_file()
+        print("Critical error found, exiting lexer...")
+        exit(5)
