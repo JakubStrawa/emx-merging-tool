@@ -40,7 +40,7 @@ class Lexer:
         while True:
             try:
                 token = self.get_token()
-                token_array.append(token.token_type.name)
+                token_array.append(token)
                 print(token.token_type)
                 if token.token_type == TokenType.T_EOF:
                     break

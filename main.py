@@ -2,6 +2,7 @@
 import gui
 import codecs
 from lexer import Lexer
+from parser import Parser
 
 if __name__ == "__main__":
     # filepath to lexer source
@@ -10,5 +11,5 @@ if __name__ == "__main__":
     codecs.open(filepath, encoding="utf-8", errors="strict").readlines()
     # create lexer and tokenize source
     lexer = Lexer(filepath)
-    print(lexer.tokens_found)
+    #parser = Parser(lexer.tokens_found)
     #gui.create_gui()

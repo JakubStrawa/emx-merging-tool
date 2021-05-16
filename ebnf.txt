@@ -1,0 +1,65 @@
+number = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "0";
+letter = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;
+symbol = number | letter | ":" | "/" | "." | "_" | "#" | "-" | "?";
+boolean = "true" | "false";
+string value = '"' , ( symbol ) , { symbol }, '"';
+double string value = '"' , ( symbol ) , { symbol } , " " , ( symbol ) , { symbol } , '"';
+
+emx = emx header , model;
+model = "<uml:Model" , model description , ">" , model contents , "</uml:Model>";
+
+model description = 'xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id=', string value, ' name=', string value;
+model contents = file description,{ package import },{ packaged element },{ profile application };
+
+file description = "<eAnnotations xmi:id=", string value, ' source="uml2.diagrams">', file name, "</eAnnotations>";
+file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=', string value, ">", graphic description, "</contents>";
+graphic description. = children description, '<element xsi:nil="true"/>', edges description;
+children description = ...; //nie interesuje nas
+edges description = ...; //nie interesuje nas
+
+package import = "<packageImport xmi:id=", string value, ">", package, "</packageImport>";
+package = '<importedPackage xmi:type="uml:Model" href=', string value, "/>";
+
+packaged element = "<packagedElement xmi:type=", ( class | association ), "</packagedElement>";
+class = '"uml:Class" xmi:id=', string value, " name=", string value, visibility, ['isLeaf="true"'], ['isAbstract="true"'], ">", [ stereotype ], [ generalization ], {attribute}, {operation};
+stereotype = "<eAnnotations xmi:id=", string value, " source=", string value, ">", stereotype description, {stereotype description}, "</eAnnotations>";
+stereotype description = "<details xmi:id=", string value, " key=", string value, "/>";
+generalization = "<generalization xmi:id=", string value, " general=", string value, "/>";
+attribute = "<ownedAttribute xmi:id=", string value, " name=", string value, attribute parameters, ( "/>" | attribute description );
+attribute description = ">", [type], [limit], [default value], "</ownedAttribute>";
+attribute parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isOrdered="true"'], ['isReadOnly="true"'], ['isDerived="true"'], ['isDerivedUnion="true"'], [short type], [association type];
+visibility = " visibility=", visibility type;
+visibility type = "public" | "private" | "protected" | "package";
+short type = " type=", string value;
+
+association type = [ 'aggregation="composite"' | 'aggregation="shared"' ], "association=", string value;
+type = "<type xmi:type=", string value, "href=", string value,"/>";
+limit = upper limit, lower limit;
+upper limit = "<upperValue xmi:type=", string value, " xmi:id=", string value, [" value=", ("1" | "*")] ,"/>";
+lower limit = "<lowerValue xmi:type=", string value, " xmi:id=", string value, [" value=", ("1" | "*")] ,"/>";
+default value = "<defaultValue xmi:type=", string value, " xmi:id=", string value, " value=", string value, ( default value type | "/>" );
+default value type = type, "</defaultValue>";
+
+operation = "<ownedOperation xmi:id=", string value, " name=", string value, [ operation parameters ], ("/>" | parameter );
+operation parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isQuery="true"'];
+parameter = owned parameter, {owned parameter}, "</ownedOperation>";
+owned parameter = "<ownedParameter xmi:id=", string value, " name=", string value, [owned parameter parameters], ("/>" | owned parameter description);
+owned parameter parameters = short type, ['isOrdered="true"'], ['isUnique="false"'], [parameter direction];
+parameter direction = " direction=", direction type;
+direction type = "return" | "out" | "inout";
+owned parameter description = ">", [type], [upper limit], [lower limit], [default value], "</ownedParameter>";
+
+association = '"uml:Association"', " xmi:id=", string value, " memberEnd=", double string value, ">", owned end;
+owned end = "<ownedEnd xmi:id=", string value, " name=", string value, visibility, short type, "association=", string value, ">", upper limit, lower limit, "</ownedEnd>";
+
+profile application = "<profileApplication xmi:id=", id, ">", eannotation, applied profile, "</profileApplication>";
+eannotation = "<eAnnotations xmi:id=", string value, " source=", string value, ">", references, "</eAnnotations>";
+references = '<references xmi:type="ecore:EPackage" href=', string value, "/>";
+applied profile = "<appliedProfile href=", path, "/>";
+
+emx header =
+    '<?xml version="1.0" encoding="UTF-8"?>
+    <!--xtools2_universal_type_manager-->
+    <!--Rational Software Architect Designer 9.7.0-->
+    <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+    <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>';

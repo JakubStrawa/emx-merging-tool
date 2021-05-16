@@ -9,3 +9,18 @@ class LexerError(Exception):
 
     def error_message(self):
         print(f'Invalid token: {self.token} found in line: {self.line} at position: {self.position}')
+
+
+class SyntaxError(Exception):
+    def __init__(self, token, msg = ""):
+        self.token = token
+        self.message = msg
+        self.default_error_message()
+
+    def default_error_message(self):
+        print(f'Unexpected token: {self.token.token_type} found')
+        if self.message != "":
+            self.custom_error_message()
+
+    def custom_error_message(self):
+        print(self.message)

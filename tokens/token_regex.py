@@ -66,7 +66,7 @@ regex_rules = {
     r'xmlns:xmi': TokenType.T_XMLNS_XMI,
     r'xmlns:xsi': TokenType.T_XMLNS_XSI,
     r'xmlns:ecore': TokenType.T_XMLNS_ECORE,
-    r'xmlns:uml': TokenType.T_XMLNS_UML,
+    r'xmlns:uml(?![\S|\s])': TokenType.T_XMLNS_UML,
     r'xmlns:umlnotation': TokenType.T_XMLNS_UML_NOTATION,
     r'\"[\S]*\"': TokenType.T_STRING_VALUE,
     r'\"[\w-]*\s[\w-]*\"': TokenType.T_DOUBLE_STRING_VALUE
