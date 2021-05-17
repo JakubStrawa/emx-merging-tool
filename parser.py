@@ -1,23 +1,26 @@
-from tokens.token import Token, ValueToken, TokenType
+from tokens.token import TokenType
 from error import SyntaxError
 import parser_objects
+
 
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
         self.current_token = -1
-        self.root = self.create_tree()
+        self.tree = self.create_tree()
 
     def get_token(self):
         self.current_token += 1
         return self.tokens[self.current_token]
 
-    def compare_tokens(self, token, type, msg = ""):
+    def compare_tokens(self, token, type, msg=""):
         if token.token_type != type:
             raise SyntaxError(token, msg)
 
     def create_tree(self):
-        model = self.parse_model()
+        model_description, model_content = self.parse_model()
+        model = parser_objects.Model(model_content[0], model_content[1], model_content[2],
+                                     model_content[3], model_description[0], model_description[1])
         return model
 
     def parse_model(self):
@@ -26,19 +29,21 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_UML_MODEL, "Model not defined")
 
-        model_description = self.parse_model_description()
-        #print(model_description)
+        model_description = self.parse_model_description()  # [id, name]
 
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET, "Model description does not end with '>'")
 
-        self.parse_model_content()
+        model_content = self.parse_model_content()  # [file_description, imports, elements, profiles]
 
         self.parse_model_end()
-
+        return model_description, model_content
 
     # parse model description
-    # model description = 'xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id=', id, ' name=', id;
+    # model description = 'xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    # xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    # xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation"
+    # xmi:id=', id, ' name=', id;
     def parse_model_description(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_VERSION)
@@ -118,7 +123,6 @@ class Parser:
 
         return [file_description, imports, elements, profiles]
 
-
     # file description = "<eAnnotations xmi:id=", id, ' source="uml2.diagrams">', file name, "</eAnnotations>";
     def parse_file_description(self):
         token = self.get_token()
@@ -147,14 +151,14 @@ class Parser:
         file_description = parser_objects.FileDescription(graphics.graphic, id, source)
         return file_description
 
-
-    # file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=', string value, ">", graphic description, "</contents>";
+    # file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=',
+    # string value, ">", graphic description, "</contents>";
     def parse_file_name(self):
         token = self.get_token()
         graphics = parser_objects.GraphicDescription()
         while token.token_type != TokenType.T_EANNOTATIONS:
             # skip graphic description
-            # add all tokens to GraphicDescription class
+            # append all tokens to GraphicDescription class
             graphics.graphic.append(token)
             token = self.get_token()
         graphics.graphic.append(token)
@@ -162,7 +166,6 @@ class Parser:
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         graphics.graphic.append(token)
         return graphics
-
 
     # package import = "<packageImport xmi:id=", id, ">", package, "</packageImport>";
     def parse_package_import(self):
@@ -230,7 +233,7 @@ class Parser:
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
         token = self.get_token()
 
-        if token.token_type == TokenType.T_PROFILE_APPLICATION:
+        if token.token_type != TokenType.T_PACKAGED_ELEMENT:
             self.current_token -= 2
             return None
 
@@ -244,7 +247,7 @@ class Parser:
         if token.value == '"uml:Class"':
             return self.parse_class()
         elif token.value == '"uml:Association"':
-             return self.parse_association()
+            return self.parse_association()
         else:
             raise SyntaxError(token, "Unrecognised packaged element, xmi:type expected: uml:Class or uml:Association")
 
@@ -265,32 +268,47 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         name = token.value
-        # czy to jest w klasie???
-        self.parse_visibility()
 
+        visibility = self.parse_visibility()
+
+        optional_attributes = []
         token = self.get_token()
         if token.token_type != TokenType.T_RIGHT_BRACKET:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_ABSTRACT:
+                option_type = token.token_type
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
-                if token.value != '"true"' | token.value != '"false"':
+                if token.value != '"true"' and token.value != '"false"':
                     raise SyntaxError(token, "Unexpected value, expected true or false value")
+                else:
+                    option_value = token.value
+                    optional_attributes.append((option_type, option_value))
             token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotype = self.parse_stereotype()
         generalization = self.parse_generalization()
+        attributes = []
         attribute = self.parse_attribute()
         while attribute != None:
+            attributes.append(attribute)
             attribute = self.parse_attribute()
+        operations = []
         operation = self.parse_operation()
         while operation != None:
+            operations.append(operation)
             operation = self.parse_operation()
         self.parse_packaged_element_end()
-        parsed_class = parser_objects.Class(id, name, None, None, None, None, None, attribute, operation)
+        is_abstract = '"false"'
+        is_leaf = '"false"'
+        for a in optional_attributes:
+            if a[0] == TokenType.T_IS_LEAF:
+                is_leaf = a[1]
+            if a[0] == TokenType.T_IS_ABSTRACT:
+                is_abstract = a[1]
+        parsed_class = parser_objects.Class(id, name, visibility, is_leaf, is_abstract, stereotype, generalization, attributes, operations)
         return parsed_class
-
 
     # visibility = " visibility=", visibility type;
     # visibility type = "public" | "private" | "protected" | "package";
@@ -304,20 +322,21 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
-        if token.value == '"public"' or token.value == '"private"' or token.value == '"protected"' or token.value == '"package"':
-            pass
+        if token.value == '"public"' or token.value == '"private"' or token.value == '"protected"' \
+                or token.value == '"package"':
+            return token.value
         else:
             raise SyntaxError(token, "Unexpected visibility")
 
-
-    # stereotype = "<eAnnotations xmi:id=", string value, " source=", string value, ">", stereotype description, {stereotype description}, "</eAnnotations>";
+    # stereotype = "<eAnnotations xmi:id=", string value, " source=", string value, ">", stereotype description,
+    #               {stereotype description}, "</eAnnotations>";
     def parse_stereotype(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
         token = self.get_token()
         if token.token_type != TokenType.T_EANNOTATIONS:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_EANNOTATIONS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -350,7 +369,6 @@ class Parser:
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotypes_obj = parser_objects.Stereotype(id, source, stereotypes)
         return stereotypes_obj
-
 
     # stereotype description = "<details xmi:id=", string value, " key=", string value, "/>";
     def parse_stereotype_description(self):
@@ -385,7 +403,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_GENERALIZATION:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_GENERALIZATION)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -408,7 +426,8 @@ class Parser:
         generalization = parser_objects.Generalization(id, general)
         return generalization
 
-    # attribute = "<ownedAttribute xmi:id=", string value, " name=", string value, attribute parameters, ( "/>" | attribute description );
+    # attribute = "<ownedAttribute xmi:id=", string value, " name=", string value, attribute parameters,
+    #           ( "/>" | attribute description );
     # attribute description = ">", [type], [limit], [default value], "</ownedAttribute>";
     def parse_attribute(self):
         token = self.get_token()
@@ -416,7 +435,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_OWNED_ATTRIBUTE:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_OWNED_ATTRIBUTE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -464,7 +483,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_TYPE:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_TYPE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_TYPE)
@@ -495,7 +514,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_DEFAULT_VALUE:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_DEFAULT_VALUE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_TYPE)
@@ -530,7 +549,8 @@ class Parser:
             self.compare_tokens(token, TokenType.T_DEFAULT_VALUE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        return type, id, value
+        default_value = parser_objects.Limit(type, id, value)
+        return default_value
 
     # attribute parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isOrdered="true"'],
     # ['isReadOnly="true"'], ['isDerived="true"'], ['isDerivedUnion="true"'], [short type], [association type];
@@ -539,7 +559,9 @@ class Parser:
         visibility = self.parse_visibility()
         token = self.get_token()
         if token.token_type != TokenType.T_RIGHT_BRACKET and token.token_type != TokenType.T_SLASH:
-            while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC or token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_READ_ONLY or token.token_type == TokenType.T_IS_DERIVED or token.token_type == TokenType.T_IS_DERIVED_UNION:
+            while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
+                    or token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_READ_ONLY \
+                    or token.token_type == TokenType.T_IS_DERIVED or token.token_type == TokenType.T_IS_DERIVED_UNION:
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
@@ -564,19 +586,19 @@ class Parser:
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
                 token = self.get_token()
 
-
         self.current_token -= 1
         parameters = parser_objects.AttributeParameters(visibility, None, None, None, None, None, None, None, None)
         return parameters
 
-    # operation = "<ownedOperation xmi:id=", string value, " name=", string value, [ operation parameters ], ("/>" | parameter );
+    # operation = "<ownedOperation xmi:id=", string value, " name=", string value, [ operation parameters ],
+    #           ("/>" | parameter );
     def parse_operation(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
         token = self.get_token()
         if token.token_type != TokenType.T_OWNED_OPERATION:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_OWNED_OPERATION)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -615,7 +637,8 @@ class Parser:
     def parse_operation_parameters(self):
         visibility = self.parse_visibility()
         token = self.get_token()
-        while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC or token.token_type == TokenType.T_IS_QUERY:
+        while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
+                or token.token_type == TokenType.T_IS_QUERY:
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_EQUALS)
             token = self.get_token()
@@ -625,7 +648,8 @@ class Parser:
         return visibility
 
     # parameter = owned parameter, {owned parameter}, "</ownedOperation>";
-    # owned parameter = "<ownedParameter xmi:id=", string value, " name=", string value, [owned parameter parameters], ("/>" | owned parameter description);
+    # owned parameter = "<ownedParameter xmi:id=", string value, " name=", string value, [owned parameter parameters],
+    #                   ("/>" | owned parameter description);
     # owned parameter parameters = short type, ['isOrdered="true"'], ['isUnique="false"'], [parameter direction];
     def parse_owned_parameter(self):
         token = self.get_token()
@@ -633,7 +657,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_OWNED_PARAMETER:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_OWNED_PARAMETER)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -666,7 +690,6 @@ class Parser:
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
             return 0
 
-
     # owned parameter description = ">", [type], [upper limit], [lower limit], [default value], "</ownedParameter>";
     def parse_owned_parameter_description(self):
         type = self.parse_type()
@@ -695,7 +718,6 @@ class Parser:
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         return token.value
 
-
     # association = '"uml:Association"', " xmi:id=", string value, " memberEnd=", double string value, ">", owned end;
     def parse_association(self):
         token = self.get_token()
@@ -704,25 +726,29 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        id = token.value
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_MEMBER_END)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_DOUBLE_STRING_VALUE)
+        member_end = token.value
         token = self.get_token()
         if token.token_type == TokenType.T_SLASH:
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-            return 0
+            association = parser_objects.Association(id, member_end, None)
+            return association
         elif token.token_type == TokenType.T_RIGHT_BRACKET:
-            self.parse_owned_end()
-            return 0
+            owned_end = self.parse_owned_end()
+            association = parser_objects.Association(id, member_end, owned_end)
+            return association
         else:
             raise SyntaxError(token, "Invalid association ending, expected '/' or '>'")
 
-
-    # owned end = "<ownedEnd xmi:id=", string value, " name=", string value, visibility, short type, "association=", string value, ">", upper limit, lower limit, "</ownedEnd>";
+    # owned end = "<ownedEnd xmi:id=", string value, " name=", string value, visibility, short type, "association=",
+    #           string value, ">", upper limit, lower limit, "</ownedEnd>";
     def parse_owned_end(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
@@ -734,15 +760,17 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        id = token.value
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_NAME)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        name = token.value
 
-        self.parse_visibility()
-        self.parse_short_type()
+        visibility = self.parse_visibility()
+        type = self.parse_short_type()
 
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_ASSOCIATION)
@@ -750,11 +778,12 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        association = token.value
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
 
-        self.parse_upper_limit()
-        self.parse_lower_limit()
+        upper_limit = self.parse_upper_limit()
+        lower_limit = self.parse_lower_limit()
 
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
@@ -765,6 +794,8 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         self.parse_packaged_element_end()
+        owned_end = parser_objects.OwnedEnd(id, name, visibility, type, association, upper_limit, lower_limit)
+        return owned_end
 
     # upper limit = "<upperValue xmi:type=", string value, " xmi:id=", string value, [" value=", ("1" | "*")] ,"/>";
     def parse_upper_limit(self):
@@ -773,7 +804,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_UPPER_VALUE:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_UPPER_VALUE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_TYPE)
@@ -801,7 +832,8 @@ class Parser:
         self.compare_tokens(token, TokenType.T_SLASH)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        return type, id, value
+        upper_limit = parser_objects.Limit(type, id, value)
+        return upper_limit
 
     # lower limit = "<lowerValue xmi:type=", string value, " xmi:id=", string value, [" value=", ("1" | "*")] ,"/>";
     def parse_lower_limit(self):
@@ -810,7 +842,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_LOWER_VALUE:
             self.current_token -= 2
-            return None;
+            return None
         self.compare_tokens(token, TokenType.T_LOWER_VALUE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_TYPE)
@@ -838,7 +870,8 @@ class Parser:
         self.compare_tokens(token, TokenType.T_SLASH)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        return type, id, value
+        lower_limit = parser_objects.Limit(type, id, value)
+        return lower_limit
 
     # short type = " type=", string value;
     def parse_short_type(self):
@@ -851,6 +884,7 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        return token.value
 
     # "</packagedElement>"
     def parse_packaged_element_end(self):
@@ -864,7 +898,8 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET, msg)
 
-    # profile application = "<profileApplication xmi:id=", id, ">", eannotation, applied profile, "</profileApplication>";
+    # profile application = "<profileApplication xmi:id=", id, ">", eannotation,
+    #                       applied profile, "</profileApplication>";
     def parse_profile_application(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
@@ -896,8 +931,6 @@ class Parser:
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         profile_application = parser_objects.ProfileApplication(eannotation, id, href)
         return profile_application
-
-
 
     # eannotation = "<eAnnotations xmi:id=", string value, " source=", string value, ">", references, "</eAnnotations>";
     def parse_eannotation(self):

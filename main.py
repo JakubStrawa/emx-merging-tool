@@ -13,4 +13,4 @@ if __name__ == "__main__":
     lexer = Lexer(filepath)
     parser = Parser(lexer.tokens_found)
     print("Token parsing complete")
-    #gui.create_gui()
+    # gui.create_gui()
