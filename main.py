@@ -6,7 +6,7 @@ from parser import Parser
 
 if __name__ == "__main__":
     # filepath to lexer source
-    filepath = "input_files/JavaBlankModel2.emx"
+    filepath = "input_files/JavaBlankModel3.emx"
     # check if source is utf-8 compatible
     codecs.open(filepath, encoding="utf-8", errors="strict").readlines()
     # create lexer and tokenize source

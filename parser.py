@@ -9,20 +9,24 @@ class Parser:
         self.current_token = -1
         self.tree = self.create_tree()
 
+    # get next token from token list
     def get_token(self):
         self.current_token += 1
         return self.tokens[self.current_token]
 
+    # compare token with expected token
     def compare_tokens(self, token, type, msg=""):
         if token.token_type != type:
             raise SyntaxError(token, msg)
 
+    # get all token parsed and return AST
     def create_tree(self):
         model_description, model_content = self.parse_model()
         model = parser_objects.Model(model_content[0], model_content[1], model_content[2],
                                      model_content[3], model_description[0], model_description[1])
         return model
 
+    # parse all tokens
     def parse_model(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET, "Model does not start with '<'")
@@ -158,6 +162,7 @@ class Parser:
             self.compare_tokens(token, TokenType.T_EQUALS)
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_STRING_VALUE)
+            references = token.value
             token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
 
@@ -390,6 +395,9 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
         token = self.get_token()
+        if token.token_type != TokenType.T_DETAILS:
+            self.current_token -= 2
+            return None
         self.compare_tokens(token, TokenType.T_DETAILS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_ID)
@@ -573,36 +581,57 @@ class Parser:
     def parse_attribute_parameters(self):
         visibility = self.parse_visibility()
         token = self.get_token()
+        aggregation = None
+        association = None
+        type = None
+        options = [None, None, None, None, None, None]
         if token.token_type != TokenType.T_RIGHT_BRACKET and token.token_type != TokenType.T_SLASH:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
                     or token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_READ_ONLY \
                     or token.token_type == TokenType.T_IS_DERIVED or token.token_type == TokenType.T_IS_DERIVED_UNION:
+                type = token.token_type
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
+                if type == TokenType.T_IS_LEAF:
+                    options[0] = token.value
+                elif type == TokenType.T_IS_STATIC:
+                    options[1] = token.value
+                elif type == TokenType.T_IS_ORDERED:
+                    options[2] = token.value
+                elif type == TokenType.T_IS_READ_ONLY:
+                    options[3] = token.value
+                elif type == TokenType.T_IS_DERIVED:
+                    options[4] = token.value
+                elif type == TokenType.T_IS_DERIVED_UNION:
+                    options[5] = token.value
+                type = None
                 token = self.get_token()
             if token.token_type == TokenType.T_TYPE:
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
+                type = token.value
                 token = self.get_token()
             if token.token_type == TokenType.T_AGGREGATION:
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
+                aggregation = token.value
                 token = self.get_token()
             if token.token_type == TokenType.T_ASSOCIATION:
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_STRING_VALUE)
+                association = token.value
                 token = self.get_token()
 
         self.current_token -= 1
-        parameters = parser_objects.AttributeParameters(visibility, None, None, None, None, None, None, None, None)
+        parameters = parser_objects.AttributeParameters(visibility, options[0], options[1], options[2], options[3], options[4], options[5], aggregation, association, type)
         return parameters
 
     # operation = "<ownedOperation xmi:id=", string value, " name=", string value, [ operation parameters ],
@@ -645,22 +674,32 @@ class Parser:
             self.compare_tokens(token, TokenType.T_OWNED_OPERATION)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        operation = parser_objects.Operation(id, name, None, None, None, None, owned_parameters)
+        operation = parser_objects.Operation(id, name, parameters[0], parameters[1], parameters[2], parameters[3], owned_parameters)
         return operation
 
     # operation parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isQuery="true"'];
     def parse_operation_parameters(self):
         visibility = self.parse_visibility()
+        isLeaf = None
+        isStatic = None
+        isQuery = None
         token = self.get_token()
         while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
                 or token.token_type == TokenType.T_IS_QUERY:
+            type = token.token_type
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_EQUALS)
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_STRING_VALUE)
+            if type == TokenType.T_IS_LEAF:
+                isLeaf = token.value
+            elif type == TokenType.T_IS_STATIC:
+                isStatic = token.value
+            elif type == TokenType.T_IS_QUERY:
+                isQuery = token.value
             token = self.get_token()
         self.current_token -= 1
-        return visibility
+        return [visibility, isLeaf, isStatic, isQuery]
 
     # parameter = owned parameter, {owned parameter}, "</ownedOperation>";
     # owned parameter = "<ownedParameter xmi:id=", string value, " name=", string value, [owned parameter parameters],
@@ -680,30 +719,41 @@ class Parser:
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        id = token.value
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_NAME)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
+        name = token.value
         type = self.parse_short_type()
         token = self.get_token()
+        isOrdered = None
+        isUnique = None
         while token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_UNIQUE:
+            token_type = token.token_type
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_EQUALS)
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_STRING_VALUE)
+            if token_type == TokenType.T_IS_ORDERED:
+                isOrdered = token.value
+            elif token_type == TokenType.T_IS_UNIQUE:
+                isUnique = token.value
             token = self.get_token()
         direction = self.parse_parameter_direction(token)
         token = self.get_token()
         if token.token_type != TokenType.T_SLASH:
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
             description = self.parse_owned_parameter_description()
-            return description
+            owned_parameter = parser_objects.OwnedParameter(id, name, type, isOrdered, isUnique, direction, description[1], description[2], description[3])
+            return owned_parameter
         else:
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-            return 0
+            owned_parameter = parser_objects.OwnedParameter(id, name, type, isOrdered, isUnique, direction, None, None, None)
+            return owned_parameter
 
     # owned parameter description = ">", [type], [upper limit], [lower limit], [default value], "</ownedParameter>";
     def parse_owned_parameter_description(self):
@@ -719,7 +769,7 @@ class Parser:
         self.compare_tokens(token, TokenType.T_OWNED_PARAMETER)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        return type, upper_limit, lower_limit, default_value
+        return [type, upper_limit, lower_limit, default_value]
 
     # parameter direction = " direction=", direction type;
     # direction type = "return" | "out" | "inout";

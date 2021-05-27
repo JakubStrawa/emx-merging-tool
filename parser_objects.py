@@ -67,7 +67,7 @@ class Attribute:
 
 class AttributeParameters:
     def __init__(self, visibility, isLeaf, isStatic, isOrdered, isReadOnly, isDerived, isDerivedUnion, aggregation,
-                 association):
+                 association, type):
         self.visibility = visibility
         self.isLeaf = isLeaf
         self.isStatic = isStatic
@@ -77,6 +77,7 @@ class AttributeParameters:
         self.isDerivedUnion = isDerivedUnion
         self.aggregation = aggregation
         self.association = association
+        self.type = type
 
 
 class Limit:
