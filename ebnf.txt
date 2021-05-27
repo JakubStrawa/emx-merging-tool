@@ -13,7 +13,7 @@ model contents = file description,{ package import },{ packaged element },{ prof
 
 file description = "<eAnnotations xmi:id=", string value, ' source="uml2.diagrams">', file name, "</eAnnotations>";
 file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=', string value, ">", graphic description, "</contents>";
-graphic description. = children description, '<element xsi:nil="true"/>', edges description;
+graphic description = children description, '<element xsi:nil="true"/>', edges description;
 children description = ...; //nie interesuje nas
 edges description = ...; //nie interesuje nas
 

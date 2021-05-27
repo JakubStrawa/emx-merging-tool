@@ -9,6 +9,7 @@ class Lexer:
         self.filepath = filepath
         self.source_file = FileReader(self.filepath)
         self.regex_table = compile_regex_rules()
+        self.isEAnnotationFound = False
         self.tokens_found = self.lexer_loop()
 
     # get next token from source file
@@ -34,6 +35,44 @@ class Lexer:
                     return create_new_token(self.regex_table[r], token_builder)
             raise LexerError(self.source_file.line, self.source_file.position, token_builder)
 
+    # tokenize everything inside graphics description
+    def tokenize_graphics(self):
+        graphics_tokens = []
+        token = self.get_token()
+        graphics_tokens.append(token)
+        # tokenize entire eAnnotations line
+        while token.token_type != TokenType.T_RIGHT_BRACKET:
+            token = self.get_token()
+            graphics_tokens.append(token)
+        # skip all tokens until second eAnnotation token
+        while token.token_type != TokenType.T_EANNOTATIONS:
+            token = self.get_graphics_token()
+            graphics_tokens.append(token)
+        return graphics_tokens
+
+    # get_token method without raising errors, but returning value tokens if not expected token found
+    def get_graphics_token(self):
+        char = self.source_file.get_char()
+        while char.isspace():
+            char = self.source_file.get_char()
+        if self.is_char_simple_token(char):
+            for r in self.regex_table:
+                if r.match(char):
+                    return create_new_token(self.regex_table[r], char)
+            raise LexerError(self.source_file.line, self.source_file.position, char)
+        else:
+            token_builder = char
+            char = self.source_file.get_char()
+            while (not char.isspace() or token_builder.count('"') == 1) and not self.is_char_simple_token(char):
+                token_builder += char
+                char = self.source_file.get_char()
+            self.source_file.position -= 1
+            self.source_file.absolute_position -= 1
+            for r in self.regex_table:
+                if r.match(token_builder):
+                    return create_new_token(self.regex_table[r], token_builder)
+            return create_new_token(TokenType.T_STRING_VALUE, token_builder)
+
     # main lexer loop building token array
     def lexer_loop(self):
         token_array = []
@@ -41,7 +80,11 @@ class Lexer:
             try:
                 token = self.get_token()
                 token_array.append(token)
-                print(token.token_type)
+                # tokenize graphics description
+                if token.token_type == TokenType.T_EANNOTATIONS and self.isEAnnotationFound is False:
+                    self.isEAnnotationFound = True
+                    graphics = self.tokenize_graphics()
+                    token_array.extend(graphics)
                 if token.token_type == TokenType.T_EOF:
                     break
             except LexerError as e:
