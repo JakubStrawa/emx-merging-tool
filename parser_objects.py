@@ -9,10 +9,11 @@ class Model:
 
 
 class FileDescription:
-    def __init__(self, graphic, id="", source=""):
+    def __init__(self, graphic, id="", source="", references=None):
         self.graphic = graphic
         self.id = id
         self.source = source
+        self.references = references
 
 
 class GraphicDescription:

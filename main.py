@@ -14,6 +14,6 @@ if __name__ == "__main__":
     for t in lexer.tokens_found:
         print(t.token_type)
     # create parser and AST
-    #parser = Parser(lexer.tokens_found)
+    parser = Parser(lexer.tokens_found)
     print("Token parsing complete")
     # gui.create_gui()

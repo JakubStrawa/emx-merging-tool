@@ -41,9 +41,10 @@ class Parser:
 
     # parse model description
     # model description = 'xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
-    # xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    # xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" ,
+    # ['xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation"'] ,
     # xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation"
-    # xmi:id=', id, ' name=', id;
+    # xmi:id=', string value, ' name=', string value;
     def parse_model_description(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_VERSION)
@@ -70,6 +71,12 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         token = self.get_token()
+        if token.token_type == TokenType.T_XMLNS_NOTATION:
+            token = self.get_token()
+            self.compare_tokens(token, TokenType.T_EQUALS)
+            token = self.get_token()
+            self.compare_tokens(token, TokenType.T_STRING_VALUE)
+            token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMLNS_UML)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
@@ -123,7 +130,8 @@ class Parser:
 
         return [file_description, imports, elements, profiles]
 
-    # file description = "<eAnnotations xmi:id=", id, ' source="uml2.diagrams">', file name, "</eAnnotations>";
+    # file description = "<eAnnotations xmi:id=", string value, 'source="uml2.diagrams"', ['references=', string value]
+    # ,'>', file name, "</eAnnotations>";
     def parse_file_description(self):
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
@@ -144,11 +152,18 @@ class Parser:
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         source = token.value
         token = self.get_token()
+        references = None
+        if token.token_type == TokenType.T_REFERENCES:
+            token = self.get_token()
+            self.compare_tokens(token, TokenType.T_EQUALS)
+            token = self.get_token()
+            self.compare_tokens(token, TokenType.T_STRING_VALUE)
+            token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
 
         graphics = self.parse_file_name()
 
-        file_description = parser_objects.FileDescription(graphics.graphic, id, source)
+        file_description = parser_objects.FileDescription(graphics.graphic, id, source, references)
         return file_description
 
     # file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=',
