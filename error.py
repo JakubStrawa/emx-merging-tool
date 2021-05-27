@@ -12,13 +12,13 @@ class LexerError(Exception):
 
 
 class SyntaxError(Exception):
-    def __init__(self, token, msg = ""):
+    def __init__(self, token, msg=""):
         self.token = token
         self.message = msg
         self.default_error_message()
 
     def default_error_message(self):
-        print(f'Unexpected token: {self.token.token_type} found')
+        print(f'Unexpected token: {self.token.token_type} found in line: {self.token.line} at position: {self.token.position}')
         if self.message != "":
             self.custom_error_message()
 

@@ -11,8 +11,7 @@ if __name__ == "__main__":
     codecs.open(filepath, encoding="utf-8", errors="strict").readlines()
     # create lexer and tokenize source
     lexer = Lexer(filepath)
-    for t in lexer.tokens_found:
-        print(t.token_type)
+    print("File tokenizing complete")
     # create parser and AST
     parser = Parser(lexer.tokens_found)
     print("Token parsing complete")

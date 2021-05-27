@@ -7,13 +7,15 @@ import enum
 # dictionary token_names with token corresponding literals
 
 class Token:
-    def __init__(self, type):
+    def __init__(self, type, line=0, position=0):
         self.token_type = type
+        self.line = line
+        self.position = position
 
 
 class ValueToken(Token):
-    def __init__(self, type, value):
-        super().__init__(type)
+    def __init__(self, type, value, line=0, position=0):
+        super().__init__(type, line, position)
         self.value = value
 
 
@@ -150,8 +152,8 @@ token_names = {
 }
 
 # create new token from TokenType and value is condition is met
-def create_new_token(token_type: TokenType, value):
+def create_new_token(token_type: TokenType, value, line=0, position=0):
     if token_type == TokenType.T_STRING_VALUE or token_type == TokenType.T_DOUBLE_STRING_VALUE:
-        return ValueToken(token_type, value)
+        return ValueToken(token_type, value, line, position)
     else:
-        return Token(token_type)
+        return Token(token_type, line, position)

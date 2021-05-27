@@ -20,7 +20,7 @@ class Lexer:
         if self.is_char_simple_token(char):
             for r in self.regex_table:
                 if r.match(char):
-                    return create_new_token(self.regex_table[r], char)
+                    return create_new_token(self.regex_table[r], char, self.source_file.line, self.source_file.position)
             raise LexerError(self.source_file.line, self.source_file.position, char)
         else:
             token_builder = char
@@ -32,7 +32,7 @@ class Lexer:
             self.source_file.absolute_position -= 1
             for r in self.regex_table:
                 if r.match(token_builder):
-                    return create_new_token(self.regex_table[r], token_builder)
+                    return create_new_token(self.regex_table[r], token_builder, self.source_file.line, self.source_file.position)
             raise LexerError(self.source_file.line, self.source_file.position, token_builder)
 
     # tokenize everything inside graphics description
@@ -58,7 +58,7 @@ class Lexer:
         if self.is_char_simple_token(char):
             for r in self.regex_table:
                 if r.match(char):
-                    return create_new_token(self.regex_table[r], char)
+                    return create_new_token(self.regex_table[r], char, self.source_file.line, self.source_file.position)
             raise LexerError(self.source_file.line, self.source_file.position, char)
         else:
             token_builder = char
@@ -70,8 +70,8 @@ class Lexer:
             self.source_file.absolute_position -= 1
             for r in self.regex_table:
                 if r.match(token_builder):
-                    return create_new_token(self.regex_table[r], token_builder)
-            return create_new_token(TokenType.T_STRING_VALUE, token_builder)
+                    return create_new_token(self.regex_table[r], token_builder, self.source_file.line, self.source_file.position)
+            return create_new_token(TokenType.T_STRING_VALUE, token_builder, self.source_file.line, self.source_file.position)
 
     # main lexer loop building token array
     def lexer_loop(self):
@@ -90,7 +90,6 @@ class Lexer:
             except LexerError as e:
                 e.error_message()
                 self.lexer_critical_error()
-        print("EOF token found")
         self.source_file.close_file()
         return token_array
 
