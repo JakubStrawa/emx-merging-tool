@@ -156,19 +156,17 @@ class Parser:
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         source = token.value
         token = self.get_token()
-        references = None
         if token.token_type == TokenType.T_REFERENCES:
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_EQUALS)
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_STRING_VALUE)
-            references = token.value
             token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
 
         graphics = self.parse_file_name()
 
-        file_description = parser_objects.FileDescription(graphics.graphic, id, source, references)
+        file_description = parser_objects.FileDescription(graphics.graphic, id, source)
         return file_description
 
     # file name = "<contents xmi:type="umlnotation:UMLDiagram" xmi:id=", string value, ' type="Class" name=',

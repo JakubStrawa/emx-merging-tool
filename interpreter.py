@@ -1,5 +1,8 @@
 from lexer import Lexer
 from parser import Parser
+from file_writer import FileWriter
+import parser_objects
+import error
 
 
 class Interpreter:
@@ -9,6 +12,7 @@ class Interpreter:
         self.resolve_conflicts_mode = resolve_mode
         self.merge_destination = merge_destination
         self.merged_tree = None
+        self.log_messages = []
         self.tokenize_input_files()
 
     def tokenize_input_files(self):
@@ -21,7 +25,59 @@ class Interpreter:
         tree1 = Parser(token_list1)
         tree2 = Parser(token_list2)
         print("Parsing complete")
-        self.combine_input_files(tree1, tree2)
+        self.combine_input_files(tree1.tree, tree2.tree)
 
     def combine_input_files(self, tree1, tree2):
-        pass
+        file_description = self.compare_file_descriptions(tree1, tree2)
+        package_imports = self.compare_package_imports(tree1, tree2)
+        packaged_elements = self.compare_packaged_elements(tree1, tree2)
+        profiles = self.compare_profiles(tree1, tree2)
+        if tree1.name != tree2.name:
+            self.log_messages.append(f'Files models name are different, name taken from file 1: {tree1.name}')
+        self.merged_tree = parser_objects.Model(file_description, package_imports, packaged_elements, profiles, tree1.name, tree1.id)
+        self.write_to_file()
+
+    def compare_file_descriptions(self, tree1, tree2):
+        # graphics description copied from file 1
+        graphic = tree1.file_description.graphic
+        id = tree1.file_description.id
+        source = tree1.file_description.source
+        if tree1.file_description.source != tree2.file_description.source:
+            self.log_messages.append(f'Files description sources are different, source taken from file 1: {tree1.file_description.source}')
+        file_description = parser_objects.FileDescription(graphic, id, source)
+        return file_description
+
+    def compare_package_imports(self, tree1, tree2):
+        package_imports = tree1.package_imports
+        for p in tree2.package_imports:
+            for r in tree1.package_imports:
+                if p.type == r.type and p.href == r.href:
+                    break
+            else:
+                package_imports.append(p)
+                continue
+        return package_imports
+
+    def compare_packaged_elements(self, tree1, tree2):
+        packaged_elements = tree1.packaged_elements
+        return packaged_elements
+
+    def compare_profiles(self, tree1, tree2):
+        profiles = tree1.profiles
+        for p in tree2.profiles:
+            for r in profiles:
+                if p.href == r.href:
+                    break
+                if p.eannotation.source == r.eannotation.source and p.eannotation.type == r.eannotation.type and p.eannotation.href == r.eannotation.href:
+                    break
+            else:
+                profiles.append(p)
+                continue
+        return profiles
+
+    def write_to_file(self):
+        file_destination = "output_files/new_emx_merged.emx"
+        if self.merge_destination == 0:
+            file_destination = self.file1_path
+        file_writer = FileWriter(file_destination, self.merged_tree)
+        file_writer.write_to_file()
