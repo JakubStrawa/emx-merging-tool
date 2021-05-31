@@ -55,7 +55,7 @@ regex_rules = {
     r'isLeaf': TokenType.T_IS_LEAF,
     r'isOrdered': TokenType.T_IS_ORDERED,
     r'isReadOnly': TokenType.T_IS_READ_ONLY,
-    r'isDerived': TokenType.T_IS_DERIVED,
+    r'isDerived$': TokenType.T_IS_DERIVED,
     r'isDerivedUnion': TokenType.T_IS_DERIVED_UNION,
     r'isQuery': TokenType.T_IS_QUERY,
     r'direction': TokenType.T_DIRECTION,
