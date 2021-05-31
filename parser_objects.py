@@ -87,12 +87,13 @@ class Limit:
 
 
 class Operation:
-    def __init__(self, id, name, visibility, isLeaf, isStatic, isQuery, ownedParameters):
+    def __init__(self, id, name, visibility, isLeaf, isStatic, isAbstract, isQuery, ownedParameters):
         self.id = id
         self.name = name
         self.visibility = visibility
         self.isLeaf = isLeaf
         self.isStatic = isStatic
+        self.isAbstract = isAbstract
         self.isQuery = isQuery
         self.ownedParameters = ownedParameters
 

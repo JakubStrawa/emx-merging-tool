@@ -3,4 +3,129 @@
 <!--Rational Software Architect Designer 9.7.0-->
 <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
 <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>
-Costam testowego
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id="JavaBlankModel" name="_2ziRYJpUEeuCLpxEe6-dzQ">
+<eAnnotations xmi:id="_2ziRYZpUEeuCLpxEe6-dzQ" source="uml2.diagrams">
+<contents xmi:type="umlnotation:UMLDiagram" xmi:id="_nkEBEJpVEeu5a_G4nNwnHQ" type="Class" name="Diagram Klas test 1" >
+<children xmi:type="umlnotation:UMLShape" xmi:id="_pHdQkJrQEeu9LuzKy0n3Ig" element ="_MNcYwJpWEeuj5s8rV26oug" fontName ="Ubuntu" fontHeight ="8" transparency ="0" lineColor ="14263149" lineWidth ="1" showStereotype ="Label" >
+<children xmi:type="notation:DecorationNode" xmi:id="_pHg68JrQEeu9LuzKy0n3Ig" type="ImageCompartment" >
+<layoutConstraint xmi:type="notation:Size" xmi:id="_pHg68ZrQEeu9LuzKy0n3Ig" width ="1320" height ="1320" />
+</children >
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pHg68prQEeu9LuzKy0n3Ig" type="Stereotype" />
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pHhiAJrQEeu9LuzKy0n3Ig" type="Name" />
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pHhiAZrQEeu9LuzKy0n3Ig" type="Parent" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pHhiAprQEeu9LuzKy0n3Ig" type="AttributeCompartment" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pHiJEJrQEeu9LuzKy0n3Ig" type="OperationCompartment" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pHiwIJrQEeu9LuzKy0n3Ig" visible ="false" type="SignalCompartment" />
+<children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_pHj-QJrQEeu9LuzKy0n3Ig" visible ="false" type="StructureCompartment" />
+<layoutConstraint xmi:type="notation:Bounds" xmi:id="_pHdQkZrQEeu9LuzKy0n3Ig" x ="17462" y ="4365" />
+</children >
+<children xmi:type="umlnotation:UMLShape" xmi:id="_pizIwJrQEeu9LuzKy0n3Ig" element ="abcdefg123456" fontName ="Ubuntu" fontHeight ="8" transparency ="0" lineColor ="14263149" lineWidth ="1" showStereotype ="Label" >
+<children xmi:type="notation:DecorationNode" xmi:id="_pizIwprQEeu9LuzKy0n3Ig" type="ImageCompartment" >
+<layoutConstraint xmi:type="notation:Size" xmi:id="_pizv0JrQEeu9LuzKy0n3Ig" width ="1320" height ="1320" />
+</children >
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pizv0ZrQEeu9LuzKy0n3Ig" type="Stereotype" />
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pizv0prQEeu9LuzKy0n3Ig" type="Name" />
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pizv05rQEeu9LuzKy0n3Ig" type="Parent" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pizv1JrQEeu9LuzKy0n3Ig" type="AttributeCompartment" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pi0W4JrQEeu9LuzKy0n3Ig" type="OperationCompartment" />
+<children xmi:type="notation:SemanticListCompartment" xmi:id="_pi0W4ZrQEeu9LuzKy0n3Ig" visible ="false" type="SignalCompartment" />
+<children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_pi0W4prQEeu9LuzKy0n3Ig" visible ="false" type="StructureCompartment" />
+<layoutConstraint xmi:type="notation:Bounds" xmi:id="_pizIwZrQEeu9LuzKy0n3Ig" x ="8096" y ="6693" />
+</children >
+<element xsi:nil="true" />
+<edges xmi:type="umlnotation:UMLConnector" xmi:id="_pi2MEJrQEeu9LuzKy0n3Ig" element ="_xUs0QJrPEeu8yuiko2P-cA" source="_pizIwJrQEeu9LuzKy0n3Ig" target="_pHdQkJrQEeu9LuzKy0n3Ig" fontName ="Ubuntu" fontHeight ="8" roundedBendpointsRadius ="4" routing ="Rectilinear" lineColor ="8421504" lineWidth ="1" showStereotype ="Text" >
+<children xmi:type="notation:DecorationNode" xmi:id="_pi2zIJrQEeu9LuzKy0n3Ig" type="NameLabel" >
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pi2zIprQEeu9LuzKy0n3Ig" type="Stereotype" />
+<children xmi:type="notation:BasicDecorationNode" xmi:id="_pi2zI5rQEeu9LuzKy0n3Ig" type="Name" />
+<layoutConstraint xmi:type="notation:Bounds" xmi:id="_pi2zIZrQEeu9LuzKy0n3Ig" y ="-186" />
+</children >
+<bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_pi2MEZrQEeu9LuzKy0n3Ig" points ="[0, 0, 0, 0]$[0, 0, 0, 0]" />
+</edges >
+</contents >
+</eAnnotations>
+  <packageImport xmi:id="_2ziRY5pUEeuCLpxEe6-dzQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packageImport xmi:id="_2ziRZJpUEeuCLpxEe6-dzQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="abcdefg123456" name="Rower" isLeaf="false" isAbstract="false">
+    <eAnnotations xmi:id="_bmHsIJrIEeuG7NKZ46hTYw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details xmi:id="_d1H6UJrIEeuG7NKZ46hTYw" key="pojazd"/>
+      <details xmi:id="_d1IhYJrIEeuG7NKZ46hTYw" key="koł�a"/>
+    </eAnnotations>
+    <generalization xmi:id="_xUs0QJrPEeu8yuiko2P-cA" general="_MNcYwJpWEeuj5s8rV26oug"/>
+    <ownedAttribute xmi:id="_-_BPoJpVEeuWE4RQbFqDWQ" name="attribute1" visibility="private" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion=None >
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ku1wgJrJEeuG7NKZ46hTYw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KuhAYJrJEeuG7NKZ46hTYw" value="1"/>
+      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_VxoIgJrJEeuG7NKZ46hTYw" value="101"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="__bXNYJpVEeuWE4RQbFqDWQ" name="Operation1" visibility=None isLeaf="true" isStatic="true" isAbstract=None isQuery="true">
+      <ownedParameter xmi:id="_Y8sWUJrJEeuG7NKZ46hTYw" name="Parameter1" isOrdered=None isUnique=None direction="return">
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_MNcYwJpWEeuj5s8rV26oug" name="Osoba" isLeaf="false" isAbstract="false">
+    <eAnnotations xmi:id="_gQ9DkJrIEeuG7NKZ46hTYw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <details xmi:id="__69XMJrIEeuG7NKZ46hTYw" key="ssak"/>
+      <details xmi:id="__69XMZrIEeuG7NKZ46hTYw" key="naczelny"/>
+      <details xmi:id="__69XMprIEeuG7NKZ46hTYw" key="wł�aś�ciciel"/>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_StSxEJpWEeuj5s8rV26oug" name="rowerek" visibility="private" isLeaf=None isStatic="true" isOrdered=None isReadOnly=None isDerived=None isDerivedUnion=None type=None >
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_APBl4JrNEeu8yuiko2P-cA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AO8tYJrNEeu8yuiko2P-cA" value="1"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_OXgckJpWEeuj5s8rV26oug" name="daj_rower" visibility="protected" isLeaf=None isStatic=None isAbstract=None isQuery=None>
+      <ownedParameter xmi:id="_P9p7AJpWEeuj5s8rV26oug" name="Parameter1" isOrdered="true" isUnique=None direction=None>
+      <type xmi:type=" href=a/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_q_VVAJrMEeuG7NKZ46hTYw" name="Parameter6" isOrdered=None isUnique=None direction=None>
+      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_t1zy4JrMEeuG7NKZ46hTYw" value="12345"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_xYldcJrJEeuG7NKZ46hTYw" name="Parameter2" isOrdered=None isUnique="false" direction="inout">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4Xd7IJrJEeuG7NKZ46hTYw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4XctAJrJEeuG7NKZ46hTYw" value="1"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_yHi1MJrJEeuG7NKZ46hTYw" name="Parameter3" isOrdered=None isUnique=None direction="out">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4zg98JrJEeuG7NKZ46hTYw" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4zfv0JrJEeuG7NKZ46hTYw" value="1"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_y1F3sJrJEeuG7NKZ46hTYw" name="Parameter4" isOrdered=None isUnique=None direction="return">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5UgyMJrJEeuG7NKZ46hTYw" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5Ue9AJrJEeuG7NKZ46hTYw"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_5nA3cJrJEeuG7NKZ46hTYw" name="Parameter5" isOrdered=None isUnique=None direction=None>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6s6IgJrJEeuG7NKZ46hTYw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6s13EJrJEeuG7NKZ46hTYw"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_i8JhsJrMEeuG7NKZ46hTYw" value="Opis_czegoś�"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_umJyEJrJEeuG7NKZ46hTYw" name="zabierz_rower" visibility="package" isLeaf=None isStatic=None isAbstract=None isQuery=None>
+    </ownedOperation>
+  </packagedElement>
+  <profileApplication xmi:id="_2ziRZZpUEeuCLpxEe6-dzQ">
+    <eAnnotations xmi:id="_2ziRZppUEeuCLpxEe6-dzQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+  </profileApplication>
+  <profileApplication xmi:id="_2ziRZ5pUEeuCLpxEe6-dzQ">
+    <eAnnotations xmi:id="_2ziRaJpUEeuCLpxEe6-dzQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Default.epx#_fNwoAAqoEd6-N_NOT9vsCA?Default/Default?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Default.epx#_a_S3wNWLEdiy4IqP8whjFA?Default?"/>
+  </profileApplication>
+  <profileApplication xmi:id="_2ziRaZpUEeuCLpxEe6-dzQ">
+    <eAnnotations xmi:id="_2ziRappUEeuCLpxEe6-dzQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_4OVBUD0TEeKt-L0gyEptgQ?Deployment/Deployment?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://UML2_MSL_PROFILES/Deployment.epx#_vjbuwOvHEdiDX5bji0iVSA?Deployment?"/>
+  </profileApplication>
+  <profileApplication xmi:id="_abcdefghijkl-dzQ">
+    <eAnnotations xmi:id="_2ziRbJpUEeuCLpxEe6-dzQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://TRANSFORM_JAVA5_PROFILES/JavaTransformProfile.epx#_znahgE3YEd-tPpJR7OP4Bg?JavaTransformation5.0/JavaTransformation50?"/>
+    </eAnnotations>
+    <appliedProfile href="pathmap://TRANSFORM_JAVA5_PROFILES/JavaTransformProfile.epx#_TQfqgOcaEdi4LptNXGi2fQ?JavaTransformation5.0?"/>
+  </profileApplication>
+</uml:Model>

@@ -7,10 +7,10 @@ import error
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination):
-        self.file1_path = file1
-        self.file2_path = file2
+        self.file1_path = "input_files/JavaBlankModel3.emx"
+        self.file2_path = "input_files/JavaBlankModel.emx"
         self.resolve_conflicts_mode = resolve_mode
-        self.merge_destination = merge_destination
+        self.merge_destination = 1
         self.merged_tree = None
         self.log_messages = []
         self.tokenize_input_files()
@@ -58,9 +58,31 @@ class Interpreter:
                 continue
         return package_imports
 
+    # TODO: Implement compare_packages_elements
     def compare_packaged_elements(self, tree1, tree2):
         packaged_elements = tree1.packaged_elements
+        for p in tree2.packaged_elements:
+            for r in packaged_elements:
+                if type(p) is parser_objects.Class and type(r) is parser_objects.Class and p.name == r.name:
+                    new_class, flag = self.compare_classes(r, p)
+                    if flag is True:
+                        pass
+                    else:
+                        break
+                elif type(p) is parser_objects.Association and type(r) is parser_objects.Association:
+                    self.compare_associations()
+                else:
+                    break
+
         return packaged_elements
+
+    # TODO: Implement compare_classes
+    def compare_classes(self, class1, class2):
+        return 1, False
+
+    # TODO: Implement compare_associations
+    def compare_associations(self):
+        pass
 
     def compare_profiles(self, tree1, tree2):
         profiles = tree1.profiles

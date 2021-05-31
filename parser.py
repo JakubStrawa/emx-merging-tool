@@ -306,7 +306,11 @@ class Parser:
             token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotype = self.parse_stereotype()
+        generalizations = []
         generalization = self.parse_generalization()
+        while generalization != None:
+            generalizations.append(generalization)
+            generalization = self.parse_generalization()
         attributes = []
         attribute = self.parse_attribute()
         while attribute != None:
@@ -325,7 +329,7 @@ class Parser:
                 is_leaf = a[1]
             if a[0] == TokenType.T_IS_ABSTRACT:
                 is_abstract = a[1]
-        parsed_class = parser_objects.Class(id, name, visibility, is_leaf, is_abstract, stereotype, generalization, attributes, operations)
+        parsed_class = parser_objects.Class(id, name, visibility, is_leaf, is_abstract, stereotype, generalizations, attributes, operations)
         return parsed_class
 
     # visibility = " visibility=", visibility type;
@@ -484,6 +488,8 @@ class Parser:
             upper_limit = self.parse_upper_limit()
             lower_limit = self.parse_lower_limit()
             default_value = self.parse_default_value()
+            if type is None and default_value[1] is not None:
+                type = default_value[1]
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
             token = self.get_token()
@@ -492,7 +498,7 @@ class Parser:
             self.compare_tokens(token, TokenType.T_OWNED_ATTRIBUTE)
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-            attribute = parser_objects.Attribute(id, name, parameters, type, upper_limit, lower_limit, default_value)
+            attribute = parser_objects.Attribute(id, name, parameters, type, upper_limit, lower_limit, default_value[0])
             return attribute
         else:
             raise SyntaxError(token, "Unexpected OwnedAttribute ending, expected '/' or '>'")
@@ -535,7 +541,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_DEFAULT_VALUE:
             self.current_token -= 2
-            return None
+            return [None, None]
         self.compare_tokens(token, TokenType.T_DEFAULT_VALUE)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_XMI_TYPE)
@@ -559,6 +565,7 @@ class Parser:
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         value = token.value
         token = self.get_token()
+        default_type = None
         if token.token_type != TokenType.T_SLASH:
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
             default_type = self.parse_type()
@@ -571,7 +578,7 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         default_value = parser_objects.Limit(type, id, value)
-        return default_value
+        return [default_value, default_type]
 
     # attribute parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isOrdered="true"'],
     # ['isReadOnly="true"'], ['isDerived="true"'], ['isDerivedUnion="true"'], [short type], [association type];
@@ -672,7 +679,7 @@ class Parser:
             self.compare_tokens(token, TokenType.T_OWNED_OPERATION)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        operation = parser_objects.Operation(id, name, parameters[0], parameters[1], parameters[2], parameters[3], owned_parameters)
+        operation = parser_objects.Operation(id, name, parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], owned_parameters)
         return operation
 
     # operation parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isQuery="true"'];
@@ -680,10 +687,11 @@ class Parser:
         visibility = self.parse_visibility()
         isLeaf = None
         isStatic = None
+        isAbstract = None
         isQuery = None
         token = self.get_token()
         while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
-                or token.token_type == TokenType.T_IS_QUERY:
+                or token.token_type == TokenType.T_IS_QUERY or token.token_type == TokenType.T_IS_ABSTRACT:
             type = token.token_type
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_EQUALS)
@@ -695,9 +703,11 @@ class Parser:
                 isStatic = token.value
             elif type == TokenType.T_IS_QUERY:
                 isQuery = token.value
+            elif type == TokenType.T_IS_ABSTRACT:
+                isAbstract = token.value
             token = self.get_token()
         self.current_token -= 1
-        return [visibility, isLeaf, isStatic, isQuery]
+        return [visibility, isLeaf, isStatic, isAbstract, isQuery]
 
     # parameter = owned parameter, {owned parameter}, "</ownedOperation>";
     # owned parameter = "<ownedParameter xmi:id=", string value, " name=", string value, [owned parameter parameters],
@@ -759,6 +769,8 @@ class Parser:
         upper_limit = self.parse_upper_limit()
         lower_limit = self.parse_lower_limit()
         default_value = self.parse_default_value()
+        if type is None and default_value[1] is not None:
+            type = default_value[1]
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_LEFT_BRACKET)
         token = self.get_token()
@@ -767,7 +779,7 @@ class Parser:
         self.compare_tokens(token, TokenType.T_OWNED_PARAMETER)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        return [type, upper_limit, lower_limit, default_value]
+        return [type, upper_limit, lower_limit, default_value[0]]
 
     # parameter direction = " direction=", direction type;
     # direction type = "return" | "out" | "inout";
