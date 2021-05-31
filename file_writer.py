@@ -68,7 +68,7 @@ class FileWriter:
         # attributes
         if p.attributes is not None:
             for a in p.attributes:
-                self.file.write(f'    <ownedAttribute xmi:id={a.id} name={a.name} visibility={a.parameters.visibility} isLeaf={a.parameters.isLeaf} isStatic={a.parameters.isStatic} isOrdered={a.parameters.isOrdered} isReadOnly={a.parameters.isReadOnly} isDerived={a.parameters.isDerived} isDerivedUnion={a.parameters.isDerivedUnion} ')
+                self.file.write(f'    <ownedAttribute xmi:id={a.id} name={a.name} visibility={a.parameters.visibility} isLeaf={a.parameters.isLeaf} isStatic={a.parameters.isStatic} isOrdered={a.parameters.isOrdered} isUnique={a.parameters.isUnique} isReadOnly={a.parameters.isReadOnly} isDerived={a.parameters.isDerived} isDerivedUnion={a.parameters.isDerivedUnion} ')
                 if a.parameters.short_type is not None:
                     self.file.write(f'type={a.parameters.short_type} ')
                 if a.parameters.aggregation is not None:

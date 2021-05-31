@@ -7,8 +7,8 @@ import error
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination):
-        self.file1_path = "input_files/JavaBlankModel.emx"
-        self.file2_path = "input_files/JavaBlankModel3.emx"
+        self.file1_path = "test_files/4 - one class, one attribute with all options.emx"
+        self.file2_path = "test_files/5 - one class with one attribute and method, all opotions.emx"
         self.resolve_conflicts_mode = resolve_mode
         self.merge_destination = 1
         self.merged_tree = None
@@ -34,7 +34,7 @@ class Interpreter:
         profiles = self.compare_profiles(tree1, tree2)
         if tree1.name != tree2.name:
             self.log_messages.append(f'Files models name are different, name taken from file 1: {tree1.name}')
-        self.merged_tree = parser_objects.Model(file_description, package_imports, packaged_elements, profiles, tree1.name, tree1.id)
+        self.merged_tree = parser_objects.Model(file_description, package_imports, packaged_elements, profiles, tree1.id, tree1.name)
         self.write_to_file()
 
     def compare_file_descriptions(self, tree1, tree2):
