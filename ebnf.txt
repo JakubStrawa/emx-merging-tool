@@ -63,3 +63,23 @@ emx header =
     <!--Rational Software Architect Designer 9.7.0-->
     <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
     <?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.model" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>';
+
+
+#### Default values for parameters  ####
+Class:
+    - visibility="public"
+    - isAbstract="false"
+    - isLeaf="false"
+Attribute:
+    - isUnique="true", reszta na "false"
+    - wszystkie visibility są jawnie napisane
+    - aggregation=None
+    - multiplicity limits: (upper/lower) */None, 1/None, 1/1, */1 : None reprezentuje 0
+Operation:
+    - visibility "public"
+    - isUnique="true", reszta na "false"
+Operation attribute:
+    - direction="in"
+    - visibility="public"
+    - isOrdered="false", isUnique="true"
+    - multiplicity limits: (upper/lower) */None, 1/None, 1/1, */1 : None reprezentuje 0

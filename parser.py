@@ -288,8 +288,8 @@ class Parser:
         name = token.value
 
         visibility = self.parse_visibility()
-
-        optional_attributes = []
+        is_abstract = '"false"'
+        is_leaf = '"false"'
         token = self.get_token()
         if token.token_type != TokenType.T_RIGHT_BRACKET:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_ABSTRACT:
@@ -301,8 +301,10 @@ class Parser:
                 if token.value != '"true"' and token.value != '"false"':
                     raise SyntaxError(token, "Unexpected value, expected true or false value")
                 else:
-                    option_value = token.value
-                    optional_attributes.append((option_type, option_value))
+                    if option_type == TokenType.T_IS_LEAF:
+                        is_leaf = token.value
+                    elif option_type == TokenType.T_IS_ABSTRACT:
+                        is_abstract = token.value
                     token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotype = self.parse_stereotype()
@@ -322,13 +324,6 @@ class Parser:
             operations.append(operation)
             operation = self.parse_operation()
         self.parse_packaged_element_end()
-        is_abstract = '"false"'
-        is_leaf = '"false"'
-        for a in optional_attributes:
-            if a[0] == TokenType.T_IS_LEAF:
-                is_leaf = a[1]
-            if a[0] == TokenType.T_IS_ABSTRACT:
-                is_abstract = a[1]
         parsed_class = parser_objects.Class(id, name, visibility, is_leaf, is_abstract, stereotype, generalizations, attributes, operations)
         return parsed_class
 
@@ -338,7 +333,7 @@ class Parser:
         token = self.get_token()
         if token.token_type != TokenType.T_VISIBILITY:
             self.current_token -= 1
-            return None
+            return '"public"'
         self.compare_tokens(token, TokenType.T_VISIBILITY)
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
@@ -589,7 +584,7 @@ class Parser:
         aggregation = None
         association = None
         type = None
-        options = [None, None, None, None, None, None, None]
+        options = ['"false"', '"false"', '"false"', '"true"', '"false"', '"false"', '"false"']
         if token.token_type != TokenType.T_RIGHT_BRACKET and token.token_type != TokenType.T_SLASH:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
                     or token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_READ_ONLY \
@@ -688,10 +683,10 @@ class Parser:
     # operation parameters = visibility, ['isLeaf="true"'], ['isStatic="true"'], ['isQuery="true"'];
     def parse_operation_parameters(self):
         visibility = self.parse_visibility()
-        isLeaf = None
-        isStatic = None
-        isAbstract = None
-        isQuery = None
+        isLeaf = '"false"'
+        isStatic = '"false"'
+        isAbstract = '"false"'
+        isQuery = '"false"'
         token = self.get_token()
         while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
                 or token.token_type == TokenType.T_IS_QUERY or token.token_type == TokenType.T_IS_ABSTRACT:
@@ -740,8 +735,8 @@ class Parser:
         name = token.value
         type = self.parse_short_type()
         token = self.get_token()
-        isOrdered = None
-        isUnique = None
+        isOrdered = '"false"'
+        isUnique = '"true"'
         while token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_UNIQUE:
             token_type = token.token_type
             token = self.get_token()
@@ -789,7 +784,7 @@ class Parser:
     def parse_parameter_direction(self, tok):
         if tok.token_type != TokenType.T_DIRECTION:
             self.current_token -= 1
-            return None
+            return '"in"'
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_EQUALS)
         token = self.get_token()
