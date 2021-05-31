@@ -65,12 +65,13 @@ class Attribute:
 
 
 class AttributeParameters:
-    def __init__(self, visibility, isLeaf, isStatic, isOrdered, isReadOnly, isDerived, isDerivedUnion, aggregation,
+    def __init__(self, visibility, isLeaf, isStatic, isOrdered, isUnique, isReadOnly, isDerived, isDerivedUnion, aggregation,
                  association, type):
         self.visibility = visibility
         self.isLeaf = isLeaf
         self.isStatic = isStatic
         self.isOrdered = isOrdered
+        self.isUnique = isUnique
         self.isReadOnly = isReadOnly
         self.isDerived = isDerived
         self.isDerivedUnion = isDerivedUnion

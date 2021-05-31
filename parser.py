@@ -303,7 +303,7 @@ class Parser:
                 else:
                     option_value = token.value
                     optional_attributes.append((option_type, option_value))
-            token = self.get_token()
+                    token = self.get_token()
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotype = self.parse_stereotype()
         generalizations = []
@@ -589,11 +589,12 @@ class Parser:
         aggregation = None
         association = None
         type = None
-        options = [None, None, None, None, None, None]
+        options = [None, None, None, None, None, None, None]
         if token.token_type != TokenType.T_RIGHT_BRACKET and token.token_type != TokenType.T_SLASH:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_STATIC \
                     or token.token_type == TokenType.T_IS_ORDERED or token.token_type == TokenType.T_IS_READ_ONLY \
-                    or token.token_type == TokenType.T_IS_DERIVED or token.token_type == TokenType.T_IS_DERIVED_UNION:
+                    or token.token_type == TokenType.T_IS_DERIVED or token.token_type == TokenType.T_IS_DERIVED_UNION \
+                    or token.token_type == TokenType.T_IS_UNIQUE:
                 type = token.token_type
                 token = self.get_token()
                 self.compare_tokens(token, TokenType.T_EQUALS)
@@ -605,12 +606,14 @@ class Parser:
                     options[1] = token.value
                 elif type == TokenType.T_IS_ORDERED:
                     options[2] = token.value
-                elif type == TokenType.T_IS_READ_ONLY:
+                elif type == TokenType.T_IS_UNIQUE:
                     options[3] = token.value
-                elif type == TokenType.T_IS_DERIVED:
+                elif type == TokenType.T_IS_READ_ONLY:
                     options[4] = token.value
-                elif type == TokenType.T_IS_DERIVED_UNION:
+                elif type == TokenType.T_IS_DERIVED:
                     options[5] = token.value
+                elif type == TokenType.T_IS_DERIVED_UNION:
+                    options[6] = token.value
                 type = None
                 token = self.get_token()
             if token.token_type == TokenType.T_TYPE:
@@ -636,7 +639,7 @@ class Parser:
                 token = self.get_token()
 
         self.current_token -= 1
-        parameters = parser_objects.AttributeParameters(visibility, options[0], options[1], options[2], options[3], options[4], options[5], aggregation, association, type)
+        parameters = parser_objects.AttributeParameters(visibility, options[0], options[1], options[2], options[3], options[4], options[5], options[6], aggregation, association, type)
         return parameters
 
     # operation = "<ownedOperation xmi:id=", string value, " name=", string value, [ operation parameters ],
