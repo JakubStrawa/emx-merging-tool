@@ -76,7 +76,7 @@ class AttributeParameters:
         self.isDerivedUnion = isDerivedUnion
         self.aggregation = aggregation
         self.association = association
-        self.type = type
+        self.short_type = type
 
 
 class Limit:

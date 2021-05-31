@@ -35,9 +35,9 @@ class FileWriter:
 
     def write_package_imports(self):
         for p in  self.tree.package_imports:
-            self.file.write(f'''  <packageImport xmi:id={p.id}>
-    <importedPackage xmi:type={p.type} href={p.href}/>
-  </packageImport>\n''')
+            self.file.write(f'  <packageImport xmi:id={p.id}>\n')
+            self.file.write(f'    <importedPackage xmi:type={p.type} href={p.href}/>\n')
+            self.file.write('  </packageImport>\n')
 
     def write_packaged_elements(self):
         for p in self.tree.packaged_elements:
@@ -69,8 +69,8 @@ class FileWriter:
         if p.attributes is not None:
             for a in p.attributes:
                 self.file.write(f'    <ownedAttribute xmi:id={a.id} name={a.name} visibility={a.parameters.visibility} isLeaf={a.parameters.isLeaf} isStatic={a.parameters.isStatic} isOrdered={a.parameters.isOrdered} isReadOnly={a.parameters.isReadOnly} isDerived={a.parameters.isDerived} isDerivedUnion={a.parameters.isDerivedUnion} ')
-                if a.parameters.type is not None:
-                    self.file.write(f'type={a.type} ')
+                if a.parameters.short_type is not None:
+                    self.file.write(f'type={a.parameters.short_type} ')
                 if a.parameters.aggregation is not None:
                     self.file.write(f'aggregation={a.parameters.aggregation} ')
                 if a.parameters.association is not None:
@@ -100,21 +100,27 @@ class FileWriter:
                 self.file.write(f'    <ownedOperation xmi:id={o.id} name={o.name} visibility={o.visibility} isLeaf={o.isLeaf} isStatic={o.isStatic} isAbstract={o.isAbstract} isQuery={o.isQuery}>\n')
                 if o.ownedParameters is not None:
                     for p in o.ownedParameters:
-                        self.file.write(f'      <ownedParameter xmi:id={p.id} name={p.name} isOrdered={p.isOrdered} isUnique={p.isUnique} direction={p.direction}>\n')
+                        self.file.write(f'      <ownedParameter xmi:id={p.id} name={p.name} isOrdered={p.isOrdered} isUnique={p.isUnique} direction={p.direction}')
                         if p.type is not None:
-                            self.file.write(f'      <type xmi:type={p.type[0]} href={p.type[1]}/>\n')
+                            if type(p.type) == str:
+                                self.file.write(f' type={p.type}>\n')
+                            else:
+                                self.file.write(f'>\n')
+                                self.file.write(f'        <type xmi:type={p.type[0]} href={p.type[1]}/>\n')
+                        else:
+                            self.file.write(f'>\n')
                         if p.upper_limit is not None:
-                            self.file.write(f'      <upperValue xmi:type={p.upper_limit.type} xmi:id={p.upper_limit.id}')
+                            self.file.write(f'        <upperValue xmi:type={p.upper_limit.type} xmi:id={p.upper_limit.id}')
                             if p.upper_limit.value is not None:
                                 self.file.write(f' value={p.upper_limit.value}')
                             self.file.write('/>\n')
                         if p.lower_limit is not None:
-                            self.file.write(f'      <lowerValue xmi:type={p.lower_limit.type} xmi:id={p.lower_limit.id}')
+                            self.file.write(f'        <lowerValue xmi:type={p.lower_limit.type} xmi:id={p.lower_limit.id}')
                             if p.lower_limit.value is not None:
                                 self.file.write(f' value={p.lower_limit.value}')
                             self.file.write('/>\n')
                         if p.default_value is not None:
-                            self.file.write(f'      <defaultValue xmi:type={p.default_value.type} xmi:id={p.default_value.id}')
+                            self.file.write(f'        <defaultValue xmi:type={p.default_value.type} xmi:id={p.default_value.id}')
                             if p.default_value.value is not None:
                                 self.file.write(f' value={p.default_value.value}')
                             self.file.write('/>\n')
@@ -125,7 +131,24 @@ class FileWriter:
 
 
     def write_association(self, p):
-        pass
+        self.file.write(f'  <packagedElement xmi:type="uml:Association" xmi:id={p.id} memberEnd={p.member_end}')
+        if p.owned_end is not None:
+            self.file.write('>\n')
+            self.file.write(f'    <ownedEnd xmi:id={p.owned_end.id} name={p.owned_end.name} visibility={p.owned_end.visibility} type={p.owned_end.type} association={p.owned_end.association}>\n')
+            if p.owned_end.upper_limit is not None:
+                self.file.write(f'      <upperValue xmi:type={p.owned_end.upper_limit.type} xmi:id={p.owned_end.upper_limit.id}')
+                if p.owned_end.upper_limit.value is not None:
+                    self.file.write(f' value={p.owned_end.upper_limit.value}')
+                self.file.write('/>\n')
+            if p.owned_end.lower_limit is not None:
+                self.file.write(f'      <lowerValue xmi:type={p.owned_end.lower_limit} xmi:id={p.owned_end.lower_limit.id}')
+                if p.owned_end.lower_limit.value is not None:
+                    self.file.write(f' value={p.owned_end.lower_limit.value}')
+                self.file.write('/>\n')
+            self.file.write('    </ownedEnd>')
+        else:
+            self.file.write('/>\n')
+        self.file.write('  </packagedElement>\n')
 
     def write_profiles(self):
         for p in self.tree.profiles:

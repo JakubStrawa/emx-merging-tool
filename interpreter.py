@@ -7,8 +7,8 @@ import error
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination):
-        self.file1_path = "input_files/JavaBlankModel3.emx"
-        self.file2_path = "input_files/JavaBlankModel.emx"
+        self.file1_path = "input_files/JavaBlankModel.emx"
+        self.file2_path = "input_files/JavaBlankModel3.emx"
         self.resolve_conflicts_mode = resolve_mode
         self.merge_destination = 1
         self.merged_tree = None
