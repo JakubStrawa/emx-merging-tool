@@ -15,7 +15,7 @@ class FileReader:
         self.file.seek(self.absolute_position)
         c = self.file.read(1)
         self.position += 1
-        self.absolute_position += 1
+        self.absolute_position = self.file.tell()
         if c == '\n':
             self.line += 1
             self.position = 0
@@ -25,7 +25,7 @@ class FileReader:
     def skip_file_header(self):
         for i in range(5):
             line = self.file.readline()
-            self.absolute_position += len(line)
+            self.absolute_position = self.file.tell()
             self.line += 1
 
     # close source file
