@@ -24,7 +24,9 @@ class App:
     def run_button_callback(self):
         self.log_textfield.delete('1.0', tk.END)
         try:
-            interpreter = Interpreter(self.file1_path, self.file2_path, self.resolve_conflicts_mode.get(), self.merge_destination.get())
+            interpreter = Interpreter(self.file1_path, self.file2_path, self.resolve_conflicts_mode.get(), self.merge_destination.get(), self.gui)
+            for msg in interpreter.log_messages:
+                self.log_textfield.insert(tk.END, msg + "\n")
         except FileNotFoundError:
             self.log_textfield.insert("0.0", "You have to choose both files!")
 
@@ -66,10 +68,10 @@ class App:
         button1 = tk.Button(self.gui, text="Choose file", command=self.choose_file1_callback)
         button2 = tk.Button(self.gui, text="Choose file", command=self.choose_file2_callback)
         new_file_checkbox = tk.Checkbutton(self.gui, text="Merge into new file",
-                            variable=self.merge_destination, onvalue=1, offvalue=0, height=2, width=20)
-        merge_int_file1_checkbox = tk.Checkbutton(self.gui, text="Merge into file 1",
                             variable=self.merge_destination, onvalue=0, offvalue=1, height=2, width=20)
-        dont_resolve_conflicts_checkbox = tk.Checkbutton(self.gui, text="Don't resolve conflicts",
+        merge_int_file1_checkbox = tk.Checkbutton(self.gui, text="Merge into file 1",
+                            variable=self.merge_destination, onvalue=1, offvalue=0, height=2, width=20)
+        dont_resolve_conflicts_checkbox = tk.Checkbutton(self.gui, text="Don't resolve conflicts\n(not recommended)",
                             variable=self.resolve_conflicts_mode, onvalue=1, offvalue=0, height=2, width=20)
         close_button = tk.Button(self.gui, text="Close", command=self.gui.destroy)
         run_button = tk.Button(self.gui, text="Run", command=self.run_button_callback)

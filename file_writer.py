@@ -47,9 +47,7 @@ class FileWriter:
                 self.write_association(p)
 
     def write_class(self, p):
-        self.file.write(f'  <packagedElement xmi:type="uml:Class" xmi:id={p.id} name={p.name}')
-        if p.visibility is not None:
-            self.file.write(f' visibility={p.visibility}')
+        self.file.write(f'  <packagedElement xmi:type="uml:Class" xmi:id={p.id} name={p.name} visibility={p.visibility}')
         if p.isLeaf != "false":
             self.file.write(f' isLeaf={p.isLeaf}')
         if p.isAbstract != "false":
@@ -68,13 +66,13 @@ class FileWriter:
         # attributes
         if p.attributes is not None:
             for a in p.attributes:
-                self.file.write(f'    <ownedAttribute xmi:id={a.id} name={a.name} visibility={a.parameters.visibility} isLeaf={a.parameters.isLeaf} isStatic={a.parameters.isStatic} isOrdered={a.parameters.isOrdered} isUnique={a.parameters.isUnique} isReadOnly={a.parameters.isReadOnly} isDerived={a.parameters.isDerived} isDerivedUnion={a.parameters.isDerivedUnion} ')
+                self.file.write(f'    <ownedAttribute xmi:id={a.id} name={a.name} visibility={a.parameters.visibility} isLeaf={a.parameters.isLeaf} isStatic={a.parameters.isStatic} isOrdered={a.parameters.isOrdered} isUnique={a.parameters.isUnique} isReadOnly={a.parameters.isReadOnly} isDerived={a.parameters.isDerived} isDerivedUnion={a.parameters.isDerivedUnion}')
                 if a.parameters.short_type is not None:
-                    self.file.write(f'type={a.parameters.short_type} ')
+                    self.file.write(f' type={a.parameters.short_type}')
                 if a.parameters.aggregation is not None:
-                    self.file.write(f'aggregation={a.parameters.aggregation} ')
+                    self.file.write(f' aggregation={a.parameters.aggregation}')
                 if a.parameters.association is not None:
-                    self.file.write(f'association={a.parameters.association}')
+                    self.file.write(f' association={a.parameters.association}')
                 self.file.write('>\n')
                 if a.type is not None:
                     self.file.write(f'      <type xmi:type={a.type[0]} href={a.type[1]}/>\n')
