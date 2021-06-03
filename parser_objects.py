@@ -100,7 +100,7 @@ class Operation:
 
 
 class OwnedParameter:
-    def __init__(self, id, name, type, isOrdered, isUnique, direction, upper, lower, default_value):
+    def __init__(self, id, name, type, isOrdered, isUnique, direction, upper, lower, default_value, short_type):
         self.id = id
         self.name = name
         self.type = type
@@ -110,6 +110,7 @@ class OwnedParameter:
         self.upper_limit = upper
         self.lower_limit = lower
         self.default_value = default_value
+        self.short_type = short_type
 
 
 class Association:

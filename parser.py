@@ -733,7 +733,7 @@ class Parser:
         token = self.get_token()
         self.compare_tokens(token, TokenType.T_STRING_VALUE)
         name = token.value
-        type = self.parse_short_type()
+        short_type = self.parse_short_type()
         token = self.get_token()
         isOrdered = '"false"'
         isUnique = '"true"'
@@ -753,12 +753,12 @@ class Parser:
         if token.token_type != TokenType.T_SLASH:
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
             description = self.parse_owned_parameter_description()
-            owned_parameter = parser_objects.OwnedParameter(id, name, type, isOrdered, isUnique, direction, description[1], description[2], description[3])
+            owned_parameter = parser_objects.OwnedParameter(id, name, description[0], isOrdered, isUnique, direction, description[1], description[2], description[3], short_type)
             return owned_parameter
         else:
             token = self.get_token()
             self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-            owned_parameter = parser_objects.OwnedParameter(id, name, type, isOrdered, isUnique, direction, None, None, None)
+            owned_parameter = parser_objects.OwnedParameter(id, name, None, isOrdered, isUnique, direction, None, None, None, short_type)
             return owned_parameter
 
     # owned parameter description = ">", [type], [upper limit], [lower limit], [default value], "</ownedParameter>";
