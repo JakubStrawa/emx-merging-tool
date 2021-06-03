@@ -7,8 +7,8 @@ from tkinter import messagebox
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination, root, destination_file="output_files/new_emx_merged.emx"):
-        self.file1_path = "input_files/JavaBlankModel3.emx"
-        self.file2_path = "test_files/3,5 - one class with one attribute with conflicts.emx"
+        self.file1_path = "test_files/10 - 3 classes, complex with generalizations and association.emx"
+        self.file2_path = "test_files/10,5 - 3 classes, complex with generalizations and association with conflicts.emx"
         self.resolve_conflicts_mode = resolve_mode
         self.merge_destination = 1
         self.destination_file = destination_file
@@ -77,13 +77,13 @@ class Interpreter:
         for p in tree2.packaged_elements:
             for r in range(len(packaged_elements)):
                 if type(p) is parser_objects.Class and type(packaged_elements[r]) is parser_objects.Class and p.name == packaged_elements[r].name:
-                    new_class, flag = self.compare_classes(packaged_elements[r], p, packaged_elements)
+                    new_class, flag = self.compare_classes(packaged_elements[r], p, tree2.packaged_elements, packaged_elements)
                     if flag is True:
                         packaged_elements[r] = new_class
                     else:
                         break
                 elif type(p) is parser_objects.Association and type(packaged_elements[r]) is parser_objects.Association:
-                    new_association, flag = self.compare_associations(packaged_elements[r], p, packaged_elements)
+                    new_association, flag = self.compare_associations(packaged_elements[r], p, tree2.packaged_elements)
                     if flag is True:
                         packaged_elements[r] = new_association
                     else:
@@ -98,8 +98,7 @@ class Interpreter:
 
         return packaged_elements
 
-    # TODO: Implement compare_classes
-    def compare_classes(self, class1, class2, packaged_elements):
+    def compare_classes(self, class1, class2, packaged_elements2, packaged_elements1):
         flag = False
         if class1.visibility != class2.visibility:
             self.log_messages.append(f'Visibility conflict in class {class1.name}.')
@@ -357,6 +356,7 @@ class Interpreter:
                 if tmp.name == attr2.name:
                     isAlreadyAnAttribute = True
             if isAlreadyAnAttribute is False:
+                flag = True
                 class1.attributes.append(attr2)
 
         for operation2 in class2.operations:
@@ -395,25 +395,170 @@ class Interpreter:
                                 flag = True
                             self.log_messages.append(f'isAbstract parameter conflict resolved in class {class1.name}, operation {operation1.name}, isAbstract changed to {operation1.isAbstract}.')
                     if operation1.isQuery != operation2.isQuery:
-                        self.log_messages.append(f'isQuery parameter conflict in class {class1.name}, operation {operation1.name}.')
+                        self.log_messages.append(f'IsQuery parameter conflict in class {class1.name}, operation {operation1.name}.')
                         if self.resolve_conflicts_mode == 0:
                             answer = messagebox.askyesno("Question", f'In file 1 isQuery is {operation1.isQuery}, but in file 2 isQuery is {operation2.isQuery}.\nDo you want to change file 1 parameter?', parent=self.root_window)
                             if answer:
                                 operation1.isQuery = operation2.isQuery
                                 flag = True
-                            self.log_messages.append(f'isQuery parameter conflict resolved in class {class1.name}, operation {operation1.name}, isQuery changed to {operation1.isQuery}.')
+                            self.log_messages.append(f'IsQuery parameter conflict resolved in class {class1.name}, operation {operation1.name}, isQuery changed to {operation1.isQuery}.')
 
                     for param2 in operation2.ownedParameters:
                         for param1 in operation1.ownedParameters:
                             if param1.name == param2.name:
                                 if param1.isOrdered != param2.isOrdered:
-                                    pass
+                                    self.log_messages.append(f'IsOrdered parameter conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 isOrdered is {param1.isOrdered}, but in file 2 isOrdered is {param2.isOrdered}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.isOrdered = param2.isOrdered
+                                            flag = True
+                                        self.log_messages.append(f'IsOrdered parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, isQuery changed to {param1.isOrdered}.')
                                 if param1.isUnique != param2.isUnique:
-                                    pass
+                                    self.log_messages.append(f'IsUnique parameter conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 isUnique is {param1.isUnique}, but in file 2 isUnique is {param2.isUnique}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.isUnique = param2.isUnique
+                                            flag = True
+                                        self.log_messages.append(f'IsUnique parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, isUnique changed to {param1.isUnique}.')
                                 if param1.direction != param2.direction:
-                                    pass
+                                    self.log_messages.append(f'Direction parameter conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 direction is {param1.direction}, but in file 2 direction is {param2.direction}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.direction = param2.direction
+                                            flag = True
+                                        self.log_messages.append(f'Direction parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, direction changed to {param1.direction}.')
                                 if param1.short_type != param2.short_type:
-                                    pass
+                                    self.log_messages.append(f'Short type parameter conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 short type is {param1.short_type}, but in file 2 short type is {param2.short_type}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.short_type = param2.short_type
+                                            flag = True
+                                        self.log_messages.append(f'Short type parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, short type changed to {param1.short_type}.')
+                                if param1.type is not None and param2.type is not None:
+                                    self.log_messages.append(f'Type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 type is {param1.type[1]}, but in file 2 type is {param2.type[1]}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.type = param2.type
+                                            flag = True
+                                        self.log_messages.append(f'Type parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, type changed to {param1.type}.')
+                                if param1.type is None and param2.type is not None:
+                                    self.log_messages.append(f'Type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 type is None, but in file 2 type is {param2.type[1]}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.type = param2.type
+                                            flag = True
+                                        self.log_messages.append(f'Type parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, type changed to {param1.type}.')
+
+                                if param1.lower_limit is not None:
+                                    if param1.lower_limit is not None and param1.lower_limit.type != param2.lower_limit.type:
+                                        self.log_messages.append(f'Lower limit type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 lower limit type is {param1.lower_limit.type}, but in file 2 lower limit type is {param2.lower_limit.type}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.lower_limit.type = param2.lower_limit.type
+                                                flag = True
+                                            self.log_messages.append(f'Lower limit type conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to {param1.lower_limit.type}.')
+                                    if param1.lower_limit is not None and param1.lower_limit.value != param2.lower_limit.value:
+                                        self.log_messages.append(f'Lower limit value conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 lower limit value is {param1.lower_limit.value}, but in file 2 lower limit value is {param2.lower_limit.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.lower_limit.value = param2.lower_limit.value
+                                                flag = True
+                                            self.log_messages.append(f'Lower limit value conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, value changed to {param1.lower_limit.value}.')
+                                    if param1.lower_limit is None:
+                                        self.log_messages.append(f'Lower limit conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 lower limit is None, but in file 2 lower limit is {param2.lower_limit.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.lower_limit = param2.lower_limit
+                                                flag = True
+                                            self.log_messages.append(f'Lower limit conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to {param1.lower_limit.value}.')
+
+                                if param2.lower_limit is None and param1.lower_limit is not None:
+                                    self.log_messages.append(f'Lower limit conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 lower limit is {param1.lower_limit.value}, but in file 2 lower limit is None.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.lower_limit = param2.lower_limit
+                                            flag = True
+                                        self.log_messages.append(f'Lower limit conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to None.')
+
+                                if param1.upper_limit is not None:
+                                    if param1.upper_limit is not None and param1.upper_limit.type != param2.upper_limit.type:
+                                        self.log_messages.append(f'Upper limit type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 upper limit type is {param1.upper_limit.type}, but in file 2 upper limit type is {param2.upper_limit.type}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.upper_limit.type = param2.upper_limit.type
+                                                flag = True
+                                            self.log_messages.append(f'Upper limit type conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to {param1.upper_limit.type}.')
+                                    if param1.upper_limit is not None and param1.upper_limit.value != param2.upper_limit.value:
+                                        self.log_messages.append(f'Upper limit value conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 upper limit value is {param1.upper_limit.value}, but in file 2 upper limit value is {param2.upper_limit.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.upper_limit.value = param2.upper_limit.value
+                                                flag = True
+                                            self.log_messages.append(f'Upper limit value conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, value changed to {param1.upper_limit.value}.')
+                                    if param1.upper_limit is None:
+                                        self.log_messages.append(f'Upper limit conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 upper limit is None, but in file 2 upper limit is {param2.upper_limit.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.upper_limit = param2.upper_limit
+                                                flag = True
+                                            self.log_messages.append(f'Upper limit conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to {param1.upper_limit.value}.')
+
+                                if param2.upper_limit is None and param1.upper_limit is not None:
+                                    self.log_messages.append(f'Upper limit conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 upper limit is {param1.upper_limit.value}, but in file 2 upper limit is None.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.upper_limit = param2.upper_limit
+                                            flag = True
+                                        self.log_messages.append(f'Upper limit conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to None.')
+
+                                if param1.default_value is not None:
+                                    if param1.default_value is not None and param1.default_value.type != param2.default_value.type:
+                                        self.log_messages.append(f'Default limit type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 default limit type is {param1.default_value.type}, but in file 2 default limit type is {param2.default_value.type}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.default_value.type = param2.default_value.type
+                                                flag = True
+                                            self.log_messages.append(f'Default value type conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, default value changed to {param1.default_value.type}.')
+                                    if param1.default_value is not None and param1.default_value.value != param2.default_value.value:
+                                        self.log_messages.append(f'default value conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 default value is {param1.default_value.value}, but in file 2 default value is {param2.default_value.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.default_value.value = param2.default_value.value
+                                                flag = True
+                                            self.log_messages.append(f'default value conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, value changed to {param1.default_value.value}.')
+                                    if param1.default_value is None:
+                                        self.log_messages.append(f'default value conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                        if self.resolve_conflicts_mode == 0:
+                                            answer = messagebox.askyesno("Question", f'In file 1 default value limit is None, but in file 2 default value limit is {param2.default_value.value}.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                            if answer:
+                                                param1.default_value = param2.default_value
+                                                flag = True
+                                            self.log_messages.append(f'default value conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, limit changed to {param1.default_value.value}.')
+
+                                if param2.default_value is None and param1.default_value is not None:
+                                    self.log_messages.append(f'default value conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
+                                    if self.resolve_conflicts_mode == 0:
+                                        answer = messagebox.askyesno("Question", f'In file 1 default value is {param1.default_value.value}, but in file 2 default value is None.\nDo you want to change file 1 parameter?', parent=self.root_window)
+                                        if answer:
+                                            param1.default_value = param2.default_value
+                                            flag = True
+                                        self.log_messages.append(f'default value conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, default value changed to None.')
 
                         # if operation in class 1 does not have any parameter with that name, it is added to parameter list of operation in class 1
                         isAlreadyAParameter = False
@@ -421,16 +566,33 @@ class Interpreter:
                             if tmp.name == param2.name:
                                 isAlreadyAParameter = True
                         if isAlreadyAParameter is False:
+                            flag = True
                             operation1.ownedParameters.append(param2)
 
-
         for g in class2.generalizations:
-            # find g.general id in class and attribute
-            # check if that id, class and attribute are in merged_class
-            # if no: write log warning
-            # if yes: change ids to correct ones, but it can be that this generalization already exists
-            pass
-
+            isGeneralizationToBeAdded = True
+            for g1 in class1.generalizations:
+                if g.general == g1.general:
+                    isGeneralizationToBeAdded = False
+            if isGeneralizationToBeAdded:
+                flag = True
+                # find g.general name in class
+                reference_class = None
+                for tmp_pckg2 in packaged_elements2:
+                    if type(tmp_pckg2) is parser_objects.Class:
+                        if tmp_pckg2.id == g.general:
+                            reference_class = tmp_pckg2.name
+                            break
+                # find id of class with given name
+                reference_id = None
+                for tmp_pckg1 in packaged_elements1:
+                    if type(tmp_pckg1) is parser_objects.Class:
+                        if tmp_pckg1.name == reference_class:
+                            reference_id = tmp_pckg1.id
+                            break
+                g.general = reference_id
+                class1.generalizations.append(g)
+                self.log_messages.append(f'Appended new generalization to class: {class1.name}, referencing class: {reference_class}.')
 
         return class1, flag
 
@@ -440,10 +602,25 @@ class Interpreter:
             return 1, False
         id = association2.member_end
         self.search_for_string(id, packaged_elements)
+        # find g.general id in class and attribute
+        id1 = association2.general.split()[0] + '"'
+        id2 = '"' + association2.general.split()[1]
+        # packaged_elements is from tree2
+        id1_class = None
+        id1_attr = None
+        # find location of first part of member end
+        for tmp_pckg in packaged_elements:
+            if type(tmp_pckg) is parser_objects.Class:
+                for tmp_attr in tmp_pckg.attributes:
+                    if tmp_attr.id == id1:
+                        id1_class = tmp_pckg.name
+                        id1_attr = tmp_attr.name
+                        break
+        # check if that id, class and attribute are in class1
+        # if no: write log warning (should be)
+        # if yes: change ids to correct ones, but it can be that this generalization already exists
         return 1, False
 
-    def search_for_string(self, str, packaged_elements):
-        pass
 
     def compare_profiles(self, tree1, tree2):
         profiles = tree1.profiles
