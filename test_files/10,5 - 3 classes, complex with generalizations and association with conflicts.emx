@@ -114,6 +114,7 @@
     <eAnnotations xmi:id="_Uo7vAMHBEeubVfAcfIlc_Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <details xmi:id="_Uo7vAcHBEeubVfAcfIlc_Q" key="person"/>
     </eAnnotations>
+    <generalization xmi:id="_xgd7AMHBEeubVfAcfIlc_Q" general="_tMs_wMHBEeubVfAcfIlc_Q"/>
     <generalization xmi:id="_5RaHwMHBEeubVfAcfIlc_Q" general="_wkL48MHBEeubVfAcfIlc_Q"/>
     <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
