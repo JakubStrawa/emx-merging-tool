@@ -29,11 +29,11 @@
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
   </packageImport>
   <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="package" isLeaf="true" isAbstract="true">
-    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
+    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
     </ownedAttribute>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="package" isLeaf="true" isAbstract="true">
-    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
+  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="package" isLeaf="true" isAbstract="false">
+    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
     </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">

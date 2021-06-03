@@ -7,7 +7,7 @@ from tkinter import messagebox
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination, root, destination_file="output_files/new_emx_merged.emx"):
-        self.file1_path = "test_files/3 - one class with one attribute.emx"
+        self.file1_path = "input_files/JavaBlankModel3.emx"
         self.file2_path = "test_files/3,5 - one class with one attribute with conflicts.emx"
         self.resolve_conflicts_mode = resolve_mode
         self.merge_destination = 1
@@ -405,7 +405,23 @@ class Interpreter:
 
                     for param2 in operation2.ownedParameters:
                         for param1 in operation1.ownedParameters:
-                            pass
+                            if param1.name == param2.name:
+                                if param1.isOrdered != param2.isOrdered:
+                                    pass
+                                if param1.isUnique != param2.isUnique:
+                                    pass
+                                if param1.direction != param2.direction:
+                                    pass
+                                if param1.short_type != param2.short_type:
+                                    pass
+
+                        # if operation in class 1 does not have any parameter with that name, it is added to parameter list of operation in class 1
+                        isAlreadyAParameter = False
+                        for tmp in operation1.ownedParameters:
+                            if tmp.name == param2.name:
+                                isAlreadyAParameter = True
+                        if isAlreadyAParameter is False:
+                            operation1.ownedParameters.append(param2)
 
 
         for g in class2.generalizations:
