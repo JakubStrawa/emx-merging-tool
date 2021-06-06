@@ -17,7 +17,7 @@
         <children xmi:type="notation:SemanticListCompartment" xmi:id="_jTWHSMG8EeuvCdaTKS7lGQ" type="OperationCompartment"/>
         <children xmi:type="notation:SemanticListCompartment" xmi:id="_jTWHScG8EeuvCdaTKS7lGQ" visible="false" type="SignalCompartment"/>
         <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_jTWHSsG8EeuvCdaTKS7lGQ" visible="false" type="StructureCompartment"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jTWHQcG8EeuvCdaTKS7lGQ" x="5207" y="1651" width="7366" height="5969"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jTWHQcG8EeuvCdaTKS7lGQ" x="3937" y="1778" width="7366" height="5969"/>
       </children>
       <element xsi:nil="true"/>
     </contents>
@@ -28,12 +28,11 @@
   <packageImport xmi:id="_FmdnpMG8EeuvCdaTKS7lGQ">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="private" isLeaf="true" isAbstract="true">
-    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_z54mQMG9Eeu15peb-0qnmQ" value="1234"/>
-    </ownedAttribute>
-    <ownedOperation xmi:id="_6k2pcMG9Eeu15peb-0qnmQ" name="Operation1" visibility="protected" isLeaf="true" isStatic="true" isAbstract="true" isQuery="true"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="public" isLeaf="false" isAbstract="false">
+    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8Ee32232aTKS7lGQ" name="Class2" visibility="public" isLeaf="false" isAbstract="false">
+    <ownedAttribute xmi:id="_7z7hIMG53432CdaTKS7lGQ" name="attribute2" visibility="public" isLeaf="true" isStatic="true" isOrdered="true" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true"/>
   </packagedElement>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">
     <eAnnotations xmi:id="_FmdnpsG8EeuvCdaTKS7lGQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
