@@ -71,7 +71,6 @@ class Interpreter:
                 continue
         return package_imports
 
-    # TODO: Implement compare_packages_elements
     def compare_packaged_elements(self, tree1, tree2):
         packaged_elements = tree1.packaged_elements
         for p in tree2.packaged_elements:
@@ -82,19 +81,17 @@ class Interpreter:
                         packaged_elements[r] = new_class
                     else:
                         break
-                elif type(p) is parser_objects.Association and type(packaged_elements[r]) is parser_objects.Association:
-                    new_association, flag = self.compare_associations(packaged_elements[r], p, tree2.packaged_elements)
-                    if flag is True:
-                        packaged_elements[r] = new_association
-                    else:
-                        break
             else:
                 if type(p) is parser_objects.Class:
                     # rename ids
                     packaged_elements.append(p)
-                elif type(p) is parser_objects.Association:
-                    # rename ids
-                    packaged_elements.append(p)
+        for association2 in tree2.packaged_elements:
+            isAssociationAdded = False
+            for association1 in packaged_elements:
+                if type(association1) is parser_objects.Association and type(association2) is parser_objects.Association:
+                    self.compare_associations(association1, association2, packaged_elements, tree2.packaged_elements, isAssociationAdded)
+                    if isAssociationAdded:
+                        break
 
         return packaged_elements
 
@@ -438,7 +435,7 @@ class Interpreter:
                                             param1.short_type = param2.short_type
                                             flag = True
                                         self.log_messages.append(f'Short type parameter conflict resolved in class {class1.name}, operation {operation1.name}, attribute {param1.name}, short type changed to {param1.short_type}.')
-                                if param1.type is not None and param2.type is not None:
+                                if param1.type is not None and param2.type is not None and (param1.type[0] != param2.type[0] or param1.type[1] != param2.type[1]):
                                     self.log_messages.append(f'Type conflict in class {class1.name}, operation {operation1.name}, attribute {param1.name}.')
                                     if self.resolve_conflicts_mode == 0:
                                         answer = messagebox.askyesno("Question", f'In file 1 type is {param1.type[1]}, but in file 2 type is {param2.type[1]}.\nDo you want to change file 1 parameter?', parent=self.root_window)
@@ -596,31 +593,129 @@ class Interpreter:
 
         return class1, flag
 
-    # TODO: Implement compare_associations
-    def compare_associations(self, association1, association2, packaged_elements):
+    def compare_associations(self, association1, association2, packaged_elements1, packaged_elements2, isAssociationAdded):
         if association1.id == association2.id:
-            return 1, False
-        id = association2.member_end
-        self.search_for_string(id, packaged_elements)
+            return
+
         # find g.general id in class and attribute
-        id1 = association2.general.split()[0] + '"'
-        id2 = '"' + association2.general.split()[1]
-        # packaged_elements is from tree2
+        id1 = association2.member_end.split()[0] + '"'
+        id2 = '"' + association2.member_end.split()[1]
+
+        isId2OwnedEnd = False
+        if id2 == association2.owned_end.id:
+            isId2OwnedEnd = True
+            id2 = association2.owned_end.association
+
         id1_class = None
         id1_attr = None
+        id1_aggregation = None
         # find location of first part of member end
-        for tmp_pckg in packaged_elements:
+        for tmp_pckg in packaged_elements2:
             if type(tmp_pckg) is parser_objects.Class:
                 for tmp_attr in tmp_pckg.attributes:
                     if tmp_attr.id == id1:
                         id1_class = tmp_pckg.name
                         id1_attr = tmp_attr.name
+                        if tmp_attr.aggregation is not None:
+                            id1_aggregation = tmp_attr.aggregation
                         break
-        # check if that id, class and attribute are in class1
-        # if no: write log warning (should be)
-        # if yes: change ids to correct ones, but it can be that this generalization already exists
-        return 1, False
 
+        id2_class = None
+        id2_attr = None
+        id2_aggregation = None
+        # find location of second part of member end
+        for tmp_pckg in packaged_elements2:
+            if type(tmp_pckg) is parser_objects.Class:
+                for tmp_attr in tmp_pckg.attributes:
+                    if isId2OwnedEnd is False and tmp_attr.id == id2:
+                        id2_class = tmp_pckg.name
+                        id2_attr = tmp_attr.name
+                        if tmp_attr.aggregation is not None:
+                            id2_aggregation = tmp_attr.aggregation
+                        break
+                    elif isId2OwnedEnd and tmp_attr.association == id2:
+                        id2_class = tmp_pckg.name
+                        id2_attr = tmp_attr.name
+                        if tmp_attr.aggregation is not None:
+                            id2_aggregation = tmp_attr.aggregation
+                        break
+
+        type_class = None
+        if isId2OwnedEnd:
+            type_class = association2.owned_end.type
+            for tmp_pckg in packaged_elements2:
+                if type(tmp_pckg) is parser_objects.Class and type_class == tmp_pckg.id:
+                    type_class = tmp_pckg.name
+                    break
+            for tmp_pckg1 in packaged_elements1:
+                if type(tmp_pckg1) is parser_objects.Class and type_class == tmp_pckg1.name:
+                    type_class = tmp_pckg1.id
+                    break
+
+        # 0-default, 1-adding as new, 2-comparing to existing one
+        adding_association_flag = 0
+
+        # check if that id, class and attribute are in class1
+        # and if that association is the same one as in class2
+        association_in_tree1_id = association1.id
+        for tmp_pckg in packaged_elements1:
+            if type(tmp_pckg) is parser_objects.Class:
+                if tmp_pckg.name == id1_class:
+                    for tmp_attr in tmp_pckg.attributes:
+                        if tmp_attr.name == id1_attr:
+                            if tmp_attr.association is None:
+                                # association does not exist in tree1
+                                # add association2 with changed ids
+                                adding_association_flag = 1
+                                tmp_attr.association = association2.id
+                                tmp_attr.aggregation = id1_aggregation
+                                association2.member_end = tmp_attr.id
+                                break
+                            elif tmp_attr.association is not None and association_in_tree1_id == tmp_attr.association:
+                                # association exists in tree1
+                                # compare type, upper and lower value
+                                adding_association_flag = 2
+                                # for now return and check next association1 value
+                                return
+                                break
+                            elif tmp_attr.association is not None and association_in_tree1_id != tmp_attr.association:
+                                # association exists in tree1, but it is not this one
+                                # check next association1 value
+                                return
+                            else:
+                                return
+        if adding_association_flag == 1:
+            # association does not exist in tree1
+            # add association2 with changed ids
+            if isId2OwnedEnd:
+                # complex case with ownedEnd
+                for tmp_pckg in packaged_elements1:
+                    if type(tmp_pckg) is parser_objects.Class:
+                        if tmp_pckg.name == id2_class:
+                            for tmp_attr in tmp_pckg.attributes:
+                                if tmp_attr.name == id2_attr:
+                                    association2.owned_end.type = type_class
+                                    tmp_attr.association = association2.id
+                                    tmp_attr.aggregation = id2_aggregation
+                                    association2.member_end = association2.member_end[:-1] + " " + association2.owned_end.id[1:]
+                                    packaged_elements1.append(association2)
+                                    return
+            else:
+                # simpler case with only member_end
+                for tmp_pckg in packaged_elements1:
+                    if type(tmp_pckg) is parser_objects.Class:
+                        if tmp_pckg.name == id2_class:
+                            for tmp_attr in tmp_pckg.attributes:
+                                if tmp_attr.name == id2_attr:
+                                    tmp_attr.association = association2.id
+                                    tmp_attr.aggregation = id2_aggregation
+                                    association2.member_end = association2.member_end[:-1] + " " + tmp_attr.id[1:]
+                                    packaged_elements1.append(association2)
+                                    return
+        # TODO: implement comparing associations
+        elif adding_association_flag == 2:
+            # association exists in tree1
+            return
 
     def compare_profiles(self, tree1, tree2):
         profiles = tree1.profiles
@@ -647,3 +742,6 @@ class Interpreter:
             self.log_messages.append(f'Application result was written into new file: {self.destination_file}.')
         for mes in self.log_messages:
             print(mes)
+
+    def change_id(self, tree1, old_id, new_id):
+        pass
