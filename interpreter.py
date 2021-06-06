@@ -7,10 +7,10 @@ from tkinter import messagebox
 
 class Interpreter:
     def __init__(self, file1, file2, resolve_mode, merge_destination, root, destination_file="output_files/new_emx_merged.emx"):
-        self.file1_path = "test_files/10 - 3 classes, complex with generalizations and association.emx"
-        self.file2_path = "test_files/10,5 - 3 classes, complex with generalizations and association with conflicts.emx"
+        self.file1_path = file1
+        self.file2_path = file2
         self.resolve_conflicts_mode = resolve_mode
-        self.merge_destination = 1
+        self.merge_destination = merge_destination
         self.destination_file = destination_file
         self.merged_tree = None
         self.root_window = root
@@ -576,17 +576,15 @@ class Interpreter:
                 # find g.general name in class
                 reference_class = None
                 for tmp_pckg2 in packaged_elements2:
-                    if type(tmp_pckg2) is parser_objects.Class:
-                        if tmp_pckg2.id == g.general:
-                            reference_class = tmp_pckg2.name
-                            break
+                    if type(tmp_pckg2) is parser_objects.Class and tmp_pckg2.id == g.general:
+                        reference_class = tmp_pckg2.name
+                        break
                 # find id of class with given name
                 reference_id = None
                 for tmp_pckg1 in packaged_elements1:
-                    if type(tmp_pckg1) is parser_objects.Class:
-                        if tmp_pckg1.name == reference_class:
-                            reference_id = tmp_pckg1.id
-                            break
+                    if type(tmp_pckg1) is parser_objects.Class and tmp_pckg1.name == reference_class:
+                        reference_id = tmp_pckg1.id
+                        break
                 g.general = reference_id
                 class1.generalizations.append(g)
                 self.log_messages.append(f'Appended new generalization to class: {class1.name}, referencing class: {reference_class}.')
@@ -689,28 +687,26 @@ class Interpreter:
             if isId2OwnedEnd:
                 # complex case with ownedEnd
                 for tmp_pckg in packaged_elements1:
-                    if type(tmp_pckg) is parser_objects.Class:
-                        if tmp_pckg.name == id2_class:
-                            for tmp_attr in tmp_pckg.attributes:
-                                if tmp_attr.name == id2_attr:
-                                    association2.owned_end.type = type_class
-                                    tmp_attr.association = association2.id
-                                    tmp_attr.aggregation = id2_aggregation
-                                    association2.member_end = association2.member_end[:-1] + " " + association2.owned_end.id[1:]
-                                    packaged_elements1.append(association2)
-                                    return
+                    if type(tmp_pckg) is parser_objects.Class and tmp_pckg.name == id2_class:
+                        for tmp_attr in tmp_pckg.attributes:
+                            if tmp_attr.name == id2_attr:
+                                association2.owned_end.type = type_class
+                                tmp_attr.association = association2.id
+                                tmp_attr.aggregation = id2_aggregation
+                                association2.member_end = association2.member_end[:-1] + " " + association2.owned_end.id[1:]
+                                packaged_elements1.append(association2)
+                                return
             else:
                 # simpler case with only member_end
                 for tmp_pckg in packaged_elements1:
-                    if type(tmp_pckg) is parser_objects.Class:
-                        if tmp_pckg.name == id2_class:
-                            for tmp_attr in tmp_pckg.attributes:
-                                if tmp_attr.name == id2_attr:
-                                    tmp_attr.association = association2.id
-                                    tmp_attr.aggregation = id2_aggregation
-                                    association2.member_end = association2.member_end[:-1] + " " + tmp_attr.id[1:]
-                                    packaged_elements1.append(association2)
-                                    return
+                    if type(tmp_pckg) is parser_objects.Class and tmp_pckg.name == id2_class:
+                        for tmp_attr in tmp_pckg.attributes:
+                            if tmp_attr.name == id2_attr:
+                                tmp_attr.association = association2.id
+                                tmp_attr.aggregation = id2_aggregation
+                                association2.member_end = association2.member_end[:-1] + " " + tmp_attr.id[1:]
+                                packaged_elements1.append(association2)
+                                return
         # TODO: implement comparing associations
         elif adding_association_flag == 2:
             # association exists in tree1
@@ -731,16 +727,13 @@ class Interpreter:
         return profiles
 
     def write_to_file(self):
-        if self.merge_destination == 0:
+        if self.merge_destination == 1:
             self.destination_file = self.file1_path
         file_writer = FileWriter(self.destination_file, self.merged_tree)
         file_writer.write_to_file()
-        if self.merge_destination == 0:
+        if self.merge_destination == 1:
             self.log_messages.append(f'Application result was written into file 1, path: {self.destination_file}.')
         else:
             self.log_messages.append(f'Application result was written into new file: {self.destination_file}.')
         for mes in self.log_messages:
             print(mes)
-
-    def change_id(self, tree1, old_id, new_id):
-        pass
