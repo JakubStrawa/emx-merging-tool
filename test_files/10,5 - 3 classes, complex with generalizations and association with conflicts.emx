@@ -110,9 +110,10 @@
   <packageImport xmi:id="_FmdnpMG8EeuvCdaTKS7lGQ">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="private" isLeaf="true" isAbstract="true">
+  <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="public" isLeaf="true" isAbstract="false">
     <eAnnotations xmi:id="_Uo7vAMHBEeubVfAcfIlc_Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <details xmi:id="_Uo7vAcHBEeubVfAcfIlc_Q" key="person"/>
+      <details xmi:id="_Uo7vAcHBEeubVfAcfIlc_Q" key="osoba"/>
     </eAnnotations>
     <generalization xmi:id="_xgd7AMHBEeubVfAcfIlc_Q" general="_tMs_wMHBEeubVfAcfIlc_Q"/>
     <generalization xmi:id="_5RaHwMHBEeubVfAcfIlc_Q" general="_wkL48MHBEeubVfAcfIlc_Q"/>
@@ -124,11 +125,11 @@
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XOc1MMHAEeuSTtzTUx1s0g" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XOTEMMHAEeuSTtzTUx1s0g"/>
-      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_DRC2IMHBEeubVfAcfIlc_Q" value="77"/>
+      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_DRC2IMHBEeubVfAcfIlc_Q" value="77777"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_WUgVcMHAEeuSTtzTUx1s0g" name="attribute3" visibility="private">
+    <ownedAttribute xmi:id="_WUgVcMHAEeuSTtzTUx1s0g" name="attribute3" visibility="public">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XaqsQcHAEeuSTtzTUx1s0g" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XaqsQMHAEeuSTtzTUx1s0g"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XaqsQMHAEeuSTtzTUx1s0g" value="1"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_We4ZcMHAEeuSTtzTUx1s0g" name="attribute4" visibility="private">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XvN_8cHAEeuSTtzTUx1s0g" value="1"/>
@@ -139,9 +140,9 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDnioMHAEeuSTtzTUx1s0g" value="1"/>
     </ownedAttribute>
     <ownedOperation xmi:id="_6k2pcMG9Eeu15peb-0qnmQ" name="Operation1" visibility="protected" isLeaf="true" isStatic="true" isAbstract="true" isQuery="true">
-      <ownedParameter xmi:id="_nrBAMMG-Eeu15peb-0qnmQ" name="Parameter1" isOrdered="true" isUnique="false" direction="return">
+      <ownedParameter xmi:id="_nrBAMMG-Eeu15peb-0qnmQ" name="Parameter1" isOrdered="false" isUnique="false" direction="return">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u0-sgcG-Eeu15peb-0qnmQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_u0-sgcG-Eeu15peb-0qnmQ" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u0-sgMG-Eeu15peb-0qnmQ" value="1"/>
         <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_sIWHIMG-Eeu15peb-0qnmQ" value="true"/>
       </ownedParameter>
@@ -151,22 +152,18 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__G60gMG_EeuSTtzTUx1s0g"/>
         <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_JpPjwMHAEeuSTtzTUx1s0g" value="1000"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_7yw8IMG_EeuSTtzTUx1s0g" name="Parameter3" direction="inout">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ARXOYcHAEeuSTtzTUx1s0g" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ARXOYMHAEeuSTtzTUx1s0g"/>
-      </ownedParameter>
-      <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" direction="out">
+      <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" direction="in">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AtPSEcHAEeuSTtzTUx1s0g" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AtPSEMHAEeuSTtzTUx1s0g" value="1"/>
       </ownedParameter>
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_tMs_wMHBEeubVfAcfIlc_Q" name="Class2">
-    <ownedAttribute xmi:id="_-vzDEcHBEeubVfAcfIlc_Q" name="class3" visibility="private" type="_wkL48MHBEeubVfAcfIlc_Q" association="_-vzDEMHBEeubVfAcfIlc_Q">
+    <ownedAttribute xmi:id="_-vzDEcHBEeubVfAcfIlc_Q" name="class3" visibility="package" type="_wkL48MHBEeubVfAcfIlc_Q" association="_-vzDEMHBEeubVfAcfIlc_Q">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-vzDE8HBEeubVfAcfIlc_Q" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-vzDEsHBEeubVfAcfIlc_Q" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="__vio0MHBEeubVfAcfIlc_Q" name="attribute21" visibility="private"/>
+    <ownedAttribute xmi:id="__vio0MHBEeubVjhdbsjchsbdjlc_Q" name="attribute21345" visibility="private"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_wkL48MHBEeubVfAcfIlc_Q" name="Class3">
     <ownedAttribute xmi:id="_yiD64MHBEeubVfAcfIlc_Q" name="attribute11" visibility="private"/>
@@ -175,6 +172,10 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-vzDFcHBEeubVfAcfIlc_Q" value="1"/>
     </ownedAttribute>
   </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_wkL48MHBEeub12345678" name="Class4">
+      <ownedAttribute xmi:id="_sjhdbfhjdbfjhsbdfj_" name="test1" visibility="private"/>
+      <ownedAttribute xmi:id="_vgv36dhbchbxjaeeff_" name="test2" visibility="public"/>
+    </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_-vzDEMHBEeubVfAcfIlc_Q" memberEnd="_-vzDEcHBEeubVfAcfIlc_Q _-vzDFMHBEeubVfAcfIlc_Q"/>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">
     <eAnnotations xmi:id="_FmdnpsG8EeuvCdaTKS7lGQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
