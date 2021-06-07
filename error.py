@@ -24,11 +24,3 @@ class SyntaxError(Exception):
 
     def custom_error_message(self):
         print(self.message)
-
-
-class InterpreterError(Exception):
-    def __init__(self, msg):
-        self.message = msg
-
-    def error_message(self):
-        print(f'Interpreter exception with message: {self.message}')

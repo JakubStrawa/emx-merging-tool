@@ -68,6 +68,8 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W3mMUZCoEeuICJsfN6k0VQ" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_W3mMUJCoEeuICJsfN6k0VQ"/>
     </ownedAttribute>
+    <ownedAttribute xmi:id="_StSxEJpWEeuj5s8rV26oug" name="rowerek" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false" type="abcdefg123456">
+    </ownedAttribute>
     <ownedOperation xmi:id="_0Q134JCgEeuacZWeASWGOQ" name="dodaj_auto" visibility="public" isLeaf="false" isStatic="false" isAbstract="false" isQuery="false">
       <ownedParameter xmi:id="_3yziwJCgEeuacZWeASWGOQ" name="auto" isOrdered="false" isUnique="true" direction="in">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6luWUJCgEeuacZWeASWGOQ" value="1"/>
@@ -78,8 +80,9 @@
   <packagedElement xmi:type="uml:Association" xmi:id="_lKbSYJCgEeuacZWeASWGOQ" memberEnd="_lKfj0JCgEeuacZWeASWGOQ _lKhZAJCgEeuacZWeASWGOQ">
     <ownedEnd xmi:id="_lKhZAJCgEeuacZWeASWGOQ" name="" visibility="private" type="klasa_auto" association="_lKbSYJCgEeuacZWeASWGOQ">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lKlDYJCgEeuacZWeASWGOQ" value="*"/>
-      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fe1ca691fa0> xmi:id="_lKiAEJCgEeuacZWeASWGOQ"/>
-    </ownedEnd>  </packagedElement>
+      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fa8d9e663a0> xmi:id="_lKiAEJCgEeuacZWeASWGOQ"/>
+    </ownedEnd>
+  </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_jnVLIJCkEeuacZWeASWGOQ" name="Pojazd" visibility="public" isLeaf="false" isAbstract="false">
     <ownedAttribute xmi:id="_mc0KgJCkEeuacZWeASWGOQ" name="liczba_kół" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
@@ -107,12 +110,12 @@
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_IAPBYJCmEeuacZWeASWGOQ" memberEnd="_IARdoJCmEeuacZWeASWGOQ _IAT54ZCmEeuacZWeASWGOQ"/>
-  </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_LqTfYJCmEeuacZWeASWGOQ" memberEnd="_LqV7oJCmEeuacZWeASWGOQ _LqY-8pCmEeuacZWeASWGOQ">
     <ownedEnd xmi:id="_LqY-8pCmEeuacZWeASWGOQ" name="" visibility="private" type="klasa_auto" association="_LqTfYJCmEeuacZWeASWGOQ">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LqZmAZCmEeuacZWeASWGOQ" value="*"/>
-      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fe1ca68b640> xmi:id="_LqZmAJCmEeuacZWeASWGOQ"/>
-    </ownedEnd>  </packagedElement>
+      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fa8d9e66a00> xmi:id="_LqZmAJCmEeuacZWeASWGOQ"/>
+    </ownedEnd>
+  </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_JW2kIJCoEeuICJsfN6k0VQ" name="Preferencja" visibility="public" isLeaf="false" isAbstract="false">
     <ownedAttribute xmi:id="_LerMQJCoEeuICJsfN6k0VQ" name="nazwa_preferencji" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
     </ownedAttribute>
@@ -120,8 +123,15 @@
   <packagedElement xmi:type="uml:Association" xmi:id="_W3k-MJCoEeuICJsfN6k0VQ" memberEnd="_W3llQJCoEeuICJsfN6k0VQ _W3mzYJCoEeuICJsfN6k0VQ">
     <ownedEnd xmi:id="_W3mzYJCoEeuICJsfN6k0VQ" name="" visibility="private" type="_QtWKMJCgEeuacZWeASWGOQ" association="_W3k-MJCoEeuICJsfN6k0VQ">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W3mzYpCoEeuICJsfN6k0VQ" value="1"/>
-      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fe1ca68b820> xmi:id="_W3mzYZCoEeuICJsfN6k0VQ" value="1"/>
-    </ownedEnd>  </packagedElement>
+      <lowerValue xmi:type=<parser_objects.Limit object at 0x7fa8d9e66be0> xmi:id="_W3mzYZCoEeuICJsfN6k0VQ" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="abcdefg123456" name="Rower" visibility="public" isLeaf="false" isAbstract="false">
+    <ownedAttribute xmi:id="_-_BPoJpVEeuWE4RQbFqDWQ" name="attribute1" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
+    </ownedAttribute>
+    <ownedOperation xmi:id="__bXNYJpVEeuWE4RQbFqDWQ" name="Operation1" visibility="public" isLeaf="false" isStatic="false" isAbstract="false" isQuery="false">
+    </ownedOperation>
+  </packagedElement>
   <profileApplication xmi:id="_XRKENZCaEeuG94qDkPAb9w">
     <eAnnotations xmi:id="_XRKENpCaEeuG94qDkPAb9w" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>

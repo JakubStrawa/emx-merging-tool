@@ -25,8 +25,11 @@ class App:
         self.log_textfield.delete('1.0', tk.END)
         try:
             interpreter = Interpreter(self.file1_path, self.file2_path, self.resolve_conflicts_mode.get(), self.merge_destination.get(), self.gui)
+            log_file = open("output_files/logs.txt", 'w')
             for msg in interpreter.log_messages:
                 self.log_textfield.insert(tk.END, msg + "\n")
+                log_file.write(msg + "\n")
+            log_file.close()
         except FileNotFoundError:
             self.log_textfield.insert("0.0", "You have to choose both files!")
 

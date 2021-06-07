@@ -707,7 +707,6 @@ class Interpreter:
                                 association2.member_end = association2.member_end[:-1] + " " + tmp_attr.id[1:]
                                 packaged_elements1.append(association2)
                                 return
-        # TODO: implement comparing associations
         elif adding_association_flag == 2:
             # association exists in tree1
             return
@@ -735,5 +734,3 @@ class Interpreter:
             self.log_messages.append(f'Application result was written into file 1, path: {self.destination_file}.')
         else:
             self.log_messages.append(f'Application result was written into new file: {self.destination_file}.')
-        for mes in self.log_messages:
-            print(mes)
