@@ -10,5 +10,5 @@ App written in Python that merges two class diagrams created in Rational Softwar
 | :---: | :---: |
 | Lexer | Finished with graphics description |
 | Parser | AST generation finished |
-| GUI | Layout finished, not integrated with rest of the program |
-| Comparator | In design |
+| GUI | Finished and integrated with the rest of the program |
+| Interpreter | Finished with association comparisons |
