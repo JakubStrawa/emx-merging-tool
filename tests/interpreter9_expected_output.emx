@@ -45,29 +45,29 @@
     <eAnnotations xmi:id="_Uo7vAMHBEeubVfAcfIlc_Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <details xmi:id="_Uo7vAcHBEeubVfAcfIlc_Q" key="person"/>
     </eAnnotations>
-    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
+    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_z54mQMG9Eeu15peb-0qnmQ" value="1234"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_UQdaEMHAEeuSTtzTUx1s0g" name="attribute2" visibility="public" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
+    <ownedAttribute xmi:id="_UQdaEMHAEeuSTtzTUx1s0g" name="attribute2" visibility="public" isLeaf="true" isStatic="true" isOrdered="true" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XOc1MMHAEeuSTtzTUx1s0g" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XOTEMMHAEeuSTtzTUx1s0g"/>
       <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_DRC2IMHBEeubVfAcfIlc_Q" value="77"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_WUgVcMHAEeuSTtzTUx1s0g" name="attribute3" visibility="private">
+    <ownedAttribute xmi:id="_WUgVcMHAEeuSTtzTUx1s0g" name="attribute3" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XaqsQcHAEeuSTtzTUx1s0g" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XaqsQMHAEeuSTtzTUx1s0g"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_We4ZcMHAEeuSTtzTUx1s0g" name="attribute4" visibility="private">
+    <ownedAttribute xmi:id="_We4ZcMHAEeuSTtzTUx1s0g" name="attribute4" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XvN_8cHAEeuSTtzTUx1s0g" value="1"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XvN_8MHAEeuSTtzTUx1s0g" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_Wm8wUMHAEeuSTtzTUx1s0g" name="attribute5" visibility="private">
+    <ownedAttribute xmi:id="_Wm8wUMHAEeuSTtzTUx1s0g" name="attribute5" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEeuSTtzTUx1s0g" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDnioMHAEeuSTtzTUx1s0g" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_Wm8wUMHA5343TtzTUx1s0g" name="attribute6" visibility="public">
+    <ownedAttribute xmi:id="_Wm8wUMHA5343TtzTUx1s0g" name="attribute6" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEedddddSTtzTUx1s0g" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDniodssHAEeuSTtzTUx1s0g"/>
     </ownedAttribute>
@@ -78,22 +78,23 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u0-sgMG-Eeu15peb-0qnmQ" value="1"/>
         <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_sIWHIMG-Eeu15peb-0qnmQ" value="true"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_7OOrsMG_EeuSTtzTUx1s0g" name="Parameter2">
+      <ownedParameter xmi:id="_7OOrsMG_EeuSTtzTUx1s0g" name="Parameter2" isOrdered="false" isUnique="true" direction="in">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__G60gcG_EeuSTtzTUx1s0g" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__G60gMG_EeuSTtzTUx1s0g"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_7yw8IMG_EeuSTtzTUx1s0g" name="Parameter3" direction="inout">
+      <ownedParameter xmi:id="_7yw8IMG_EeuSTtzTUx1s0g" name="Parameter3" isOrdered="false" isUnique="true" direction="inout">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ARXOYcHAEeuSTtzTUx1s0g" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ARXOYMHAEeuSTtzTUx1s0g"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" direction="out">
+      <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" isOrdered="false" isUnique="true" direction="out">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AtPSEcHAEeuSTtzTUx1s0g" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AtPSEMHAEeuSTtzTUx1s0g" value="1"/>
       </ownedParameter>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_RU1hAMHBEeubVfAcfIlc_Q" name="Class2"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_RU1hAMHBEeubVfAcfIlc_Q" name="Class2" visibility="public" isLeaf="false" isAbstract="false">
+  </packagedElement>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">
     <eAnnotations xmi:id="_FmdnpsG8EeuvCdaTKS7lGQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>

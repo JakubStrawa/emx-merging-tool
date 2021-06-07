@@ -17,20 +17,7 @@
         <children xmi:type="notation:SemanticListCompartment" xmi:id="_jTWHSMG8EeuvCdaTKS7lGQ" type="OperationCompartment"/>
         <children xmi:type="notation:SemanticListCompartment" xmi:id="_jTWHScG8EeuvCdaTKS7lGQ" visible="false" type="SignalCompartment"/>
         <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_jTWHSsG8EeuvCdaTKS7lGQ" visible="false" type="StructureCompartment"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jTWHQcG8EeuvCdaTKS7lGQ" x="4953" y="1651" width="7366" height="5969"/>
-      </children>
-      <children xmi:type="umlnotation:UMLShape" xmi:id="_RU-q8MHBEeubVfAcfIlc_Q" element="_RU1hAMHBEeubVfAcfIlc_Q" fontName="Segoe UI" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
-        <children xmi:type="notation:DecorationNode" xmi:id="_RU-q8sHBEeubVfAcfIlc_Q" type="ImageCompartment">
-          <layoutConstraint xmi:type="notation:Size" xmi:id="_RU-q88HBEeubVfAcfIlc_Q" width="1320" height="1320"/>
-        </children>
-        <children xmi:type="notation:BasicDecorationNode" xmi:id="_RU-q9MHBEeubVfAcfIlc_Q" type="Stereotype"/>
-        <children xmi:type="notation:BasicDecorationNode" xmi:id="_RU-q9cHBEeubVfAcfIlc_Q" type="Name"/>
-        <children xmi:type="notation:BasicDecorationNode" xmi:id="_RU-q9sHBEeubVfAcfIlc_Q" type="Parent"/>
-        <children xmi:type="notation:SemanticListCompartment" xmi:id="_RU-q98HBEeubVfAcfIlc_Q" type="AttributeCompartment"/>
-        <children xmi:type="notation:SemanticListCompartment" xmi:id="_RU-q-MHBEeubVfAcfIlc_Q" type="OperationCompartment"/>
-        <children xmi:type="notation:SemanticListCompartment" xmi:id="_RU-q-cHBEeubVfAcfIlc_Q" visible="false" type="SignalCompartment"/>
-        <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_RU-q-sHBEeubVfAcfIlc_Q" visible="false" type="StructureCompartment"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RU-q8cHBEeubVfAcfIlc_Q" x="16510" y="1524" width="6477" height="6096"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jTWHQcG8EeuvCdaTKS7lGQ" x="5207" y="1651" width="7366" height="5969"/>
       </children>
       <element xsi:nil="true"/>
     </contents>
@@ -42,34 +29,13 @@
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
   </packageImport>
   <packagedElement xmi:type="uml:Class" xmi:id="_jTClQMG8EeuvCdaTKS7lGQ" name="Class1" visibility="private" isLeaf="true" isAbstract="true">
-    <eAnnotations xmi:id="_Uo7vAMHBEeubVfAcfIlc_Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
-      <details xmi:id="_Uo7vAcHBEeubVfAcfIlc_Q" key="person"/>
-    </eAnnotations>
-    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
+    <ownedAttribute xmi:id="_7z7hIMG8EeuvCdaTKS7lGQ" name="attribute1" visibility="protected" isLeaf="true" isStatic="true" isOrdered="true" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_z54mQMG9Eeu15peb-0qnmQ" value="1234"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_UQdaEMHAEeuSTtzTUx1s0g" name="attribute2" visibility="public" isLeaf="true" isStatic="true" isOrdered="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
-      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XOc1MMHAEeuSTtzTUx1s0g" value="*"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XOTEMMHAEeuSTtzTUx1s0g"/>
-      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_DRC2IMHBEeubVfAcfIlc_Q" value="77"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_WUgVcMHAEeuSTtzTUx1s0g" name="attribute3" visibility="private">
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XaqsQcHAEeuSTtzTUx1s0g" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XaqsQMHAEeuSTtzTUx1s0g"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_We4ZcMHAEeuSTtzTUx1s0g" name="attribute4" visibility="private">
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XvN_8cHAEeuSTtzTUx1s0g" value="1"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XvN_8MHAEeuSTtzTUx1s0g" value="1"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_Wm8wUMHAEeuSTtzTUx1s0g" name="attribute5" visibility="private">
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEeuSTtzTUx1s0g" value="*"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDnioMHAEeuSTtzTUx1s0g" value="1"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_Wm8wUMHA5343TtzTUx1s0g" name="attribute6" visibility="public">
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEedddddSTtzTUx1s0g" value="*"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDniodssHAEeuSTtzTUx1s0g"/>
+    <ownedAttribute xmi:id="_7z7hIMG8E342424aTKS7lGQ" name="attribute54433" visibility="public" isLeaf="true" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="true" isDerived="true" isDerivedUnion="true">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_z54mQMG9Eeu15peb-0qnmQ" value="99999"/>
     </ownedAttribute>
     <ownedOperation xmi:id="_6k2pcMG9Eeu15peb-0qnmQ" name="Operation1" visibility="protected" isLeaf="true" isStatic="true" isAbstract="true" isQuery="true">
       <ownedParameter xmi:id="_nrBAMMG-Eeu15peb-0qnmQ" name="Parameter1" isOrdered="true" isUnique="false" direction="return">
@@ -78,22 +44,8 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_u0-sgMG-Eeu15peb-0qnmQ" value="1"/>
         <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_sIWHIMG-Eeu15peb-0qnmQ" value="true"/>
       </ownedParameter>
-      <ownedParameter xmi:id="_7OOrsMG_EeuSTtzTUx1s0g" name="Parameter2">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__G60gcG_EeuSTtzTUx1s0g" value="*"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__G60gMG_EeuSTtzTUx1s0g"/>
-      </ownedParameter>
-      <ownedParameter xmi:id="_7yw8IMG_EeuSTtzTUx1s0g" name="Parameter3" direction="inout">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ARXOYcHAEeuSTtzTUx1s0g" value="*"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ARXOYMHAEeuSTtzTUx1s0g"/>
-      </ownedParameter>
-      <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" direction="out">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AtPSEcHAEeuSTtzTUx1s0g" value="*"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AtPSEMHAEeuSTtzTUx1s0g" value="1"/>
-      </ownedParameter>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_RU1hAMHBEeubVfAcfIlc_Q" name="Class2"/>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">
     <eAnnotations xmi:id="_FmdnpsG8EeuvCdaTKS7lGQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>

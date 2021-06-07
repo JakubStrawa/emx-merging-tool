@@ -67,10 +67,6 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEeuSTtzTUx1s0g" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDnioMHAEeuSTtzTUx1s0g" value="1"/>
     </ownedAttribute>
-    <ownedAttribute xmi:id="_Wm8wUMHA5343TtzTUx1s0g" name="attribute6" visibility="public">
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YDniocHAEedddddSTtzTUx1s0g" value="*"/>
-      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YDniodssHAEeuSTtzTUx1s0g"/>
-    </ownedAttribute>
     <ownedOperation xmi:id="_6k2pcMG9Eeu15peb-0qnmQ" name="Operation1" visibility="protected" isLeaf="true" isStatic="true" isAbstract="true" isQuery="true">
       <ownedParameter xmi:id="_nrBAMMG-Eeu15peb-0qnmQ" name="Parameter1" isOrdered="true" isUnique="false" direction="return">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
@@ -82,9 +78,10 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__G60gcG_EeuSTtzTUx1s0g" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__G60gMG_EeuSTtzTUx1s0g"/>
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_JpPjwMHAEeuSTtzTUx1s0g" value="1000"/>
       </ownedParameter>
       <ownedParameter xmi:id="_7yw8IMG_EeuSTtzTUx1s0g" name="Parameter3" direction="inout">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ARXOYcHAEeuSTtzTUx1s0g" value="*"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ARXOYcHAEeuSTtzTUx1s0g" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ARXOYMHAEeuSTtzTUx1s0g"/>
       </ownedParameter>
       <ownedParameter xmi:id="_80amYMG_EeuSTtzTUx1s0g" name="Parameter4" direction="out">
