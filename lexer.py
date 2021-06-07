@@ -45,33 +45,12 @@ class Lexer:
             token = self.get_token()
             graphics_tokens.append(token)
         # skip all tokens until second eAnnotation token
-        while token.token_type != TokenType.T_EANNOTATIONS:
-            token = self.get_graphics_token()
-            graphics_tokens.append(token)
+        line = self.source_file.read_graphics_line()
+        graphics_tokens.append(line)
+        while line != "  </eAnnotations>\n":
+            line = self.source_file.read_graphics_line()
+            graphics_tokens.append(line)
         return graphics_tokens
-
-    # get_token method without raising errors, but returning value tokens if not expected token found
-    def get_graphics_token(self):
-        char = self.source_file.get_char()
-        while char.isspace():
-            char = self.source_file.get_char()
-        if self.is_char_simple_token(char):
-            for r in self.regex_table:
-                if r.match(char):
-                    return create_new_token(self.regex_table[r], char, self.source_file.line, self.source_file.position)
-            raise LexerError(self.source_file.line, self.source_file.position, char)
-        else:
-            token_builder = char
-            char = self.source_file.get_char()
-            while (not char.isspace() or token_builder.count('"') == 1) and not self.is_char_simple_token(char):
-                token_builder += char
-                char = self.source_file.get_char()
-            self.source_file.position -= 1
-            self.source_file.absolute_position -= 1
-            for r in self.regex_table:
-                if r.match(token_builder):
-                    return create_new_token(self.regex_table[r], token_builder, self.source_file.line, self.source_file.position)
-            return create_new_token(TokenType.T_STRING_VALUE, token_builder, self.source_file.line, self.source_file.position)
 
     # main lexer loop building token array
     def lexer_loop(self):

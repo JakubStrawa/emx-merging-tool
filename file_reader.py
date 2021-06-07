@@ -21,6 +21,13 @@ class FileReader:
             self.position = 0
         return c
 
+    def read_graphics_line(self):
+        self.file.seek(self.absolute_position)
+        line = self.file.readline()
+        self.absolute_position = self.file.tell()
+        self.line += 1
+        return line
+
     # skip 5 line header of emx file
     def skip_file_header(self):
         for i in range(5):
