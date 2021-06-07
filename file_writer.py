@@ -22,16 +22,9 @@ class FileWriter:
         self.file.write(f'<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xmi:id={self.tree.id} name={self.tree.name}>\n')
 
     def write_file_description(self):
-        self.file.write(f'<eAnnotations xmi:id={self.tree.file_description.id} source={self.tree.file_description.source}>\n')
+        self.file.write(f'  <eAnnotations xmi:id={self.tree.file_description.id} source={self.tree.file_description.source}>')
         for t in self.tree.file_description.graphic:
-            if t.token_type == TokenType.T_RIGHT_BRACKET:
-                self.file.write(t.token_type.to_string() + "\n")
-            elif t.token_type == TokenType.T_STRING_VALUE:
-                self.file.write(t.value + " ")
-            elif t.token_type == TokenType.T_CONTENTS or t.token_type == TokenType.T_CHILDREN or t.token_type == TokenType.T_ELEMENT:
-                self.file.write(t.token_type.to_string() + " ")
-            else:
-                self.file.write(t.token_type.to_string())
+            self.file.write(t)
 
     def write_package_imports(self):
         for p in  self.tree.package_imports:
@@ -52,6 +45,9 @@ class FileWriter:
             self.file.write(f' isLeaf={p.isLeaf}')
         if p.isAbstract != "false":
             self.file.write(f' isAbstract={p.isAbstract}')
+        if p.stereotypes is None and p.generalizations is None and p.attributes is None and p.operations is None:
+            self.file.write('/>\n')
+            return
         self.file.write('>\n')
         # stereotypes
         if p.stereotypes is not None:

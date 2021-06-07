@@ -600,7 +600,7 @@ class Interpreter:
         id2 = '"' + association2.member_end.split()[1]
 
         isId2OwnedEnd = False
-        if id2 == association2.owned_end.id:
+        if association2.owned_end is not None and id2 == association2.owned_end.id:
             isId2OwnedEnd = True
             id2 = association2.owned_end.association
 
@@ -614,8 +614,8 @@ class Interpreter:
                     if tmp_attr.id == id1:
                         id1_class = tmp_pckg.name
                         id1_attr = tmp_attr.name
-                        if tmp_attr.aggregation is not None:
-                            id1_aggregation = tmp_attr.aggregation
+                        if tmp_attr.parameters.aggregation is not None:
+                            id1_aggregation = tmp_attr.parameters.aggregation
                         break
 
         id2_class = None
@@ -628,14 +628,14 @@ class Interpreter:
                     if isId2OwnedEnd is False and tmp_attr.id == id2:
                         id2_class = tmp_pckg.name
                         id2_attr = tmp_attr.name
-                        if tmp_attr.aggregation is not None:
-                            id2_aggregation = tmp_attr.aggregation
+                        if tmp_attr.parameters.aggregation is not None:
+                            id2_aggregation = tmp_attr.parameters.aggregation
                         break
-                    elif isId2OwnedEnd and tmp_attr.association == id2:
+                    elif isId2OwnedEnd and tmp_attr.parameters.association == id2:
                         id2_class = tmp_pckg.name
                         id2_attr = tmp_attr.name
-                        if tmp_attr.aggregation is not None:
-                            id2_aggregation = tmp_attr.aggregation
+                        if tmp_attr.parameters.aggregation is not None:
+                            id2_aggregation = tmp_attr.parameters.aggregation
                         break
 
         type_class = None
@@ -661,21 +661,21 @@ class Interpreter:
                 if tmp_pckg.name == id1_class:
                     for tmp_attr in tmp_pckg.attributes:
                         if tmp_attr.name == id1_attr:
-                            if tmp_attr.association is None:
+                            if tmp_attr.parameters.association is None:
                                 # association does not exist in tree1
                                 # add association2 with changed ids
                                 adding_association_flag = 1
-                                tmp_attr.association = association2.id
-                                tmp_attr.aggregation = id1_aggregation
+                                tmp_attr.parameters.association = association2.id
+                                tmp_attr.parameters.aggregation = id1_aggregation
                                 association2.member_end = tmp_attr.id
                                 break
-                            elif tmp_attr.association is not None and association_in_tree1_id == tmp_attr.association:
+                            elif tmp_attr.parameters.association is not None and association_in_tree1_id == tmp_attr.parameters.association:
                                 # association exists in tree1
                                 # compare type, upper and lower value
                                 adding_association_flag = 2
                                 # for now return and check next association1 value
                                 return
-                            elif tmp_attr.association is not None and association_in_tree1_id != tmp_attr.association:
+                            elif tmp_attr.parameters.association is not None and association_in_tree1_id != tmp_attr.parameters.association:
                                 # association exists in tree1, but it is not this one
                                 # check next association1 value
                                 return
@@ -691,8 +691,8 @@ class Interpreter:
                         for tmp_attr in tmp_pckg.attributes:
                             if tmp_attr.name == id2_attr:
                                 association2.owned_end.type = type_class
-                                tmp_attr.association = association2.id
-                                tmp_attr.aggregation = id2_aggregation
+                                tmp_attr.parameters.association = association2.id
+                                tmp_attr.parameters.aggregation = id2_aggregation
                                 association2.member_end = association2.member_end[:-1] + " " + association2.owned_end.id[1:]
                                 packaged_elements1.append(association2)
                                 return
@@ -702,8 +702,8 @@ class Interpreter:
                     if type(tmp_pckg) is parser_objects.Class and tmp_pckg.name == id2_class:
                         for tmp_attr in tmp_pckg.attributes:
                             if tmp_attr.name == id2_attr:
-                                tmp_attr.association = association2.id
-                                tmp_attr.aggregation = id2_aggregation
+                                tmp_attr.parameters.association = association2.id
+                                tmp_attr.parameters.aggregation = id2_aggregation
                                 association2.member_end = association2.member_end[:-1] + " " + tmp_attr.id[1:]
                                 packaged_elements1.append(association2)
                                 return

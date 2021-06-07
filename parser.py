@@ -1,4 +1,4 @@
-from tokens.token import TokenType
+from tokens.token import TokenType, Token
 from error import SyntaxError
 import parser_objects
 
@@ -174,15 +174,12 @@ class Parser:
     def parse_file_name(self):
         token = self.get_token()
         graphics = parser_objects.GraphicDescription()
-        while token.token_type != TokenType.T_EANNOTATIONS:
+        while type(token) is not Token:
             # skip graphic description
             # append all tokens to GraphicDescription class
             graphics.graphic.append(token)
             token = self.get_token()
-        graphics.graphic.append(token)
-        token = self.get_token()
-        self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
-        graphics.graphic.append(token)
+        self.current_token -= 1
         return graphics
 
     # package import = "<packageImport xmi:id=", id, ">", package, "</packageImport>";
@@ -291,7 +288,7 @@ class Parser:
         is_abstract = '"false"'
         is_leaf = '"false"'
         token = self.get_token()
-        if token.token_type != TokenType.T_RIGHT_BRACKET:
+        if token.token_type != TokenType.T_RIGHT_BRACKET or token.token_type != TokenType.T_SLASH:
             while token.token_type == TokenType.T_IS_LEAF or token.token_type == TokenType.T_IS_ABSTRACT:
                 option_type = token.token_type
                 token = self.get_token()
@@ -306,6 +303,11 @@ class Parser:
                     elif option_type == TokenType.T_IS_ABSTRACT:
                         is_abstract = token.value
                     token = self.get_token()
+        if token.token_type == TokenType.T_SLASH:
+            token = self.get_token()
+            self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
+            parsed_class = parser_objects.Class(id, name, visibility, is_leaf, is_abstract, None, [], [], [])
+            return parsed_class
         self.compare_tokens(token, TokenType.T_RIGHT_BRACKET)
         stereotype = self.parse_stereotype()
         generalizations = []
