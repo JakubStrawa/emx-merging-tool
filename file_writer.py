@@ -139,10 +139,10 @@ class FileWriter:
                 if p.owned_end.lower_limit.value is not None:
                     self.file.write(f' value={p.owned_end.lower_limit.value}')
                 self.file.write('/>\n')
-            self.file.write('    </ownedEnd>')
+            self.file.write('    </ownedEnd>\n')
+            self.file.write('  </packagedElement>\n')
         else:
             self.file.write('/>\n')
-        self.file.write('  </packagedElement>\n')
 
     def write_profiles(self):
         for p in self.tree.profiles:

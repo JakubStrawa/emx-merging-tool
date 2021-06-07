@@ -181,7 +181,6 @@
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_-vzDEMHBEeubVfAcfIlc_Q" memberEnd="_-vzDEcHBEeubVfAcfIlc_Q _-vzDFMHBEeubVfAcfIlc_Q"/>
-  </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_wkL48MHBEeub12345678" name="Class4" visibility="public" isLeaf="false" isAbstract="false">
     <ownedAttribute xmi:id="_sjhdbfhjdbfjhsbdfj_" name="test1" visibility="private" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
     </ownedAttribute>
