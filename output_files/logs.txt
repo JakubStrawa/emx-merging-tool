@@ -1,1 +1,3 @@
+Files' model names are different.
+Name conflict resolved, name changed to "JavaBlankModel".
 Application result was written into new file: output_files/new_emx_merged.emx.

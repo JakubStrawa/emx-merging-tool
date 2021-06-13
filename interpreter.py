@@ -85,12 +85,10 @@ class Interpreter:
                     packaged_elements.append(p)
 
         for association2 in tree2.packaged_elements:
-            isAssociationAdded = False
-            for association1 in packaged_elements:
-                if type(association1) is parser_objects.Association and type(association2) is parser_objects.Association:
-                    self.compare_associations(association1, association2, packaged_elements, tree2.packaged_elements, isAssociationAdded)
-                    if isAssociationAdded:
-                        break
+            if type(association2) is parser_objects.Association:
+                self.compare_associations(association2, packaged_elements, tree2.packaged_elements)
+
+
 
         return packaged_elements
 
@@ -591,10 +589,7 @@ class Interpreter:
 
         return class1, flag
 
-    def compare_associations(self, association1, association2, packaged_elements1, packaged_elements2, isAssociationAdded):
-        if association1.id == association2.id:
-            return
-
+    def compare_associations(self, association2, packaged_elements1, packaged_elements2):
         # find g.general id in class and attribute
         id1 = association2.member_end.split()[0] + '"'
         id2 = '"' + association2.member_end.split()[1]
@@ -655,32 +650,28 @@ class Interpreter:
 
         # check if that id, class and attribute are in class1
         # and if that association is the same one as in class2
-        association_in_tree1_id = association1.id
+        # association_in_tree1_id = association1.id
         for tmp_pckg in packaged_elements1:
             if type(tmp_pckg) is parser_objects.Class:
                 if tmp_pckg.name == id1_class:
                     for tmp_attr in tmp_pckg.attributes:
                         if tmp_attr.name == id1_attr:
-                            if tmp_attr.parameters.association is None:
-                                # association does not exist in tree1
-                                # add association2 with changed ids
-                                adding_association_flag = 1
-                                tmp_attr.parameters.association = association2.id
-                                tmp_attr.parameters.aggregation = id1_aggregation
-                                association2.member_end = tmp_attr.id
-                                break
-                            elif tmp_attr.parameters.association is not None and association_in_tree1_id == tmp_attr.parameters.association:
-                                # association exists in tree1
-                                # compare type, upper and lower value
-                                adding_association_flag = 2
-                                # for now return and check next association1 value
-                                return
-                            elif tmp_attr.parameters.association is not None and association_in_tree1_id != tmp_attr.parameters.association:
-                                # association exists in tree1, but it is not this one
-                                # check next association1 value
-                                return
-                            else:
-                                return
+                            # association does not exist in tree1
+                            # add association2 with changed ids
+                            adding_association_flag = 1
+                            tmp_attr.parameters.association = association2.id
+                            tmp_attr.parameters.aggregation = id1_aggregation
+                            association2.member_end = tmp_attr.id
+                            break
+                            # elif tmp_attr.parameters.association is not None and association_in_tree1_id == tmp_attr.parameters.association:
+                            #     # association exists in tree1
+                            #     adding_association_flag = 2
+                            #     # for now return and check next association1 value
+                            #     return
+                            # elif tmp_attr.parameters.association is not None and association_in_tree1_id != tmp_attr.parameters.association:
+                            #     # association exists in tree1, but it is not this one
+                            #     # check next association1 value
+                            #     return
         if adding_association_flag == 1:
             # association does not exist in tree1
             # add association2 with changed ids
