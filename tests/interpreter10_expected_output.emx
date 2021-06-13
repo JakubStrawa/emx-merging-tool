@@ -187,6 +187,7 @@
     <ownedAttribute xmi:id="_vgv36dhbchbxjaeeff_" name="test2" visibility="public" isLeaf="false" isStatic="false" isOrdered="false" isUnique="true" isReadOnly="false" isDerived="false" isDerivedUnion="false">
     </ownedAttribute>
   </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_-vzDEMHBEeubVfAcfIlc_Q" memberEnd="_-vzDEcHBEeubVfAcfIlc_Q _-vzDFMHBEeubVfAcfIlc_Q"/>
   <profileApplication xmi:id="_FmdnpcG8EeuvCdaTKS7lGQ">
     <eAnnotations xmi:id="_FmdnpsG8EeuvCdaTKS7lGQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
